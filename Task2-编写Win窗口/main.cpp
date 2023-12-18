@@ -5,7 +5,9 @@
 #include <string.h>
 #include <tchar.h>
 #include"my_math/my_math.h"
+#include"my_tools/my_tools.h"
 
+using namespace XX_XZH;
 // Global variables
 
 // The main window class name.
@@ -72,7 +74,7 @@ int WINAPI WinMain(
     szTitle,
     WS_OVERLAPPEDWINDOW,
     CW_USEDEFAULT, CW_USEDEFAULT,
-    500, 100,
+    500, 500,
     NULL,
     NULL,
     hInstance,
@@ -88,11 +90,6 @@ int WINAPI WinMain(
 
     return 1;
   }
-
-  XX_XZH::Matrix m1, m2, m3;
-  m1.OutPutMatrix();
-  m2.OutPutMatrix();
-  m3.OutPutMatrix();
   // The parameters to ShowWindow explained:
   // hWnd: the value returned from CreateWindow
   // nCmdShow: the fourth parameter from WinMain
@@ -120,13 +117,20 @@ int WINAPI WinMain(
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
   PAINTSTRUCT ps;
+
   HDC hdc;
   TCHAR greeting[] = _T("Hello, Windows desktop!");
+  HPEN hp;
+  hp = CreatePen(1, 3, RGB(0, 0, 0));
 
+  Vector3 v1(100, 100, 1);
+  Vector3 v2(200, 1000, 1);
   switch (message)
   {
   case WM_PAINT:
     hdc = BeginPaint(hWnd, &ps);
+    SelectObject(hdc, hp);
+    DrawLineUseDDA(hdc, v1, v2);
 
     // Here your application is laid out.
     // For this introduction, we just print out "Hello, Windows desktop!"
@@ -136,6 +140,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
       greeting, _tcslen(greeting));
     // End application-specific layout section.
 
+    ReleaseDC(hWnd, hdc);
+    DeleteObject(hp);
     EndPaint(hWnd, &ps);
     break;
   case WM_DESTROY:
