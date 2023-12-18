@@ -309,7 +309,7 @@ namespace XX_XZH {
     tmp_camera_rotation.matrix_[0][0] = camera_x.GetX();tmp_camera_rotation.matrix_[0][1] = camera_x.GetY();tmp_camera_rotation.matrix_[0][2] = camera_x.GetZ();
     tmp_camera_rotation.matrix_[1][0] = camera_y.GetX();tmp_camera_rotation.matrix_[1][1] = camera_y.GetY();tmp_camera_rotation.matrix_[1][2] = camera_y.GetZ();
     tmp_camera_rotation.matrix_[2][0] = camera_z.GetX();tmp_camera_rotation.matrix_[2][1] = camera_z.GetY();tmp_camera_rotation.matrix_[2][2] = camera_z.GetZ();
-    Matrix model_matrix = tmp_camera_rotation * tmp_camera_translation;
+    this->matrix_ = (tmp_camera_rotation * tmp_camera_translation).matrix_;
   }
   /*Projectionæÿ’Û
   * halve = (fov/2)*m_pi/180;
@@ -350,8 +350,8 @@ namespace XX_XZH {
     }
   }
   void Matrix::OutPutMatrix() {
-    for (int i = 0; i < 4; i++) {
-      for (int j = 0; j < 4; j++) {
+    for (int i = 0; i < matrix_order_; i++) {
+      for (int j = 0; j < matrix_order_; j++) {
         std::cout << matrix_[i][j] << " ";
       }
       std::cout << std::endl; 
@@ -359,26 +359,22 @@ namespace XX_XZH {
   }
   void Matrix::ModelScale(float x, float y, float z)
   {
-    Identity();
     matrix_[0][0] = x;
     matrix_[1][1] = y;
     matrix_[2][2] = z;
   }
   void Matrix::ModelRotationX(float alpha)
   {
-    Identity();
     matrix_[1][1] = cos(alpha * 180 / M_PI); matrix_[1][2] = -sin(alpha * 180 / M_PI);
     matrix_[2][1] = sin(alpha * 180 / M_PI); matrix_[2][2] = cos(alpha * 180 / M_PI);
   }
   void Matrix::ModelRotationY(float beta)
   {
-    Identity();
     matrix_[0][0] = cos(beta * 180 / M_PI); matrix_[0][2] = sin(beta * 180 / M_PI);
     matrix_[2][0] = -sin(beta * 180 / M_PI); matrix_[2][2] = cos(beta * 180 / M_PI);
   }
   void Matrix::ModelRotationZ(float gamma)
   {
-    Identity();
     matrix_[0][0] = cos(gamma * 180 / M_PI); matrix_[0][1] = -sin(gamma * 180 / M_PI);
     matrix_[1][0] = sin(gamma * 180 / M_PI); matrix_[1][1] = cos(gamma * 180 / M_PI);
   }
@@ -390,7 +386,6 @@ namespace XX_XZH {
   }
   void Matrix::ModelTranslation(float x, float y, float z)
   {
-    Identity();
     matrix_[0][3] = x;
     matrix_[1][3] = y;
     matrix_[2][3] = z;

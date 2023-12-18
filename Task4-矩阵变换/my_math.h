@@ -76,6 +76,7 @@ public:
   virtual ~Matrix();
   int GetMatrixOrder() const;
 
+  /*单位矩阵，应当按照当前矩阵的阶数进行单位赋值*/
   void Identity();
   void OutPutMatrix();
 
