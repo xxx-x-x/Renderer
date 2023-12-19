@@ -17,6 +17,7 @@ namespace XX_XZH {
   * 参数说明：输入屏幕HDC，起始点坐标，终止点坐标；
   */
   void DrawLineUseDDA(HDC& hdc,Vector3& start_location,Vector3& end_location);/*使用DDA算法画线*/
+  void DrawLineUseDDALegacy(HDC& hdc, Vector3& start_location, Vector3& end_location);/*使用DDA算法画线*/
 }
 #endif // !_MY_TOOLS_
 

@@ -61,12 +61,22 @@ namespace XX_XZH {
   void Vector3::OutPutVector3() {
     std::cout << "Vector3" << this->GetX() << "," << this->GetY() << "," << this->GetZ() << std::endl;
   }
+  void Vector3::ExchangeXY()
+  {
+    float tmp = x_;
+    x_ = y_;
+    y_ = tmp;
+  }
   Vector3& Vector3::operator=(const Vector3& tmp_v3) {
     this->x_ = tmp_v3.x_;
     this->y_ = tmp_v3.y_;
     this->z_ = tmp_v3.z_;
     this->w_ = tmp_v3.w_;
     return *this;
+  }
+  Vector3::operator Vector2()
+  {
+    return Vector2(x_, y_);
   }
   float Dot(const Vector3& left_v3, const Vector3& right_v3) {
     float tmp_result;
@@ -183,11 +193,21 @@ namespace XX_XZH {
   void Vector2::OutPutVector2() {
     std::cout << "Vector2:" << this->GetX() << "," << this->GetY() << std::endl;
   }
+  void Vector2::ExchangeXY()
+  {
+    float tmp = x_;
+    x_ = y_;
+    y_ = tmp;
+  }
   Vector2 Vector2::operator=(const Vector2& tmp_v2) {
     this->x_ = tmp_v2.x_;
     this->y_ = tmp_v2.y_;
     this->w_ = tmp_v2.w_;
     return *this;
+  }
+  Vector2::operator Vector3()
+  {
+    return Vector3(x_, y_, 0);
   }
   float Dot(const Vector2& left_v2, const Vector2& right_v2) {
     return left_v2.GetX() * right_v2.GetX() + left_v2.GetY() * right_v2.GetY();

@@ -14,6 +14,8 @@
 #include<iostream>
 #include<vector>
 namespace XX_XZH{
+/*提前声明*/
+  class Vector2;
 /*类注释：该类为三维向量类*/
 class Vector3 {
 public:
@@ -33,9 +35,10 @@ public:
   void Normalize(); //单位化向量
   float Norm();     //向量的模
   void OutPutVector3();
+  void ExchangeXY();
 
   Vector3& operator= (const Vector3& tmp_v3);
-private:
+  operator Vector2();
   float x_;
   float y_;
   float z_;
@@ -59,8 +62,10 @@ public:
   void Normalize(); //单位化向量
   float Norm();     //向量的模
   void OutPutVector2();
+  void ExchangeXY();
 
   Vector2 operator= (const Vector2& tmp_v2);
+  operator Vector3();
 private:
   float x_;
   float y_;

@@ -130,7 +130,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
   case WM_PAINT:
     hdc = BeginPaint(hWnd, &ps);
     SelectObject(hdc, hp);
-    DrawLineUseDDA(hdc, v1, v2);
+    DrawLineUseDDALegacy(hdc, v1, v2);
 
     // Here your application is laid out.
     // For this introduction, we just print out "Hello, Windows desktop!"
