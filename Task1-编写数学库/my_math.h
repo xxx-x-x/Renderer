@@ -9,6 +9,10 @@
 #define _MY_MATH_H_
 
 #define IS_EQUAL(num1,num2,num3) IsEqual(num1,num2,num3)
+#define MAX_NUM(num1,num2,num3) MaxNum(num1,num2,num3)
+#define MIN_NUM(num1,num2,num3) MinNum(num1,num2,num3)
+#define ROUND(num) (int)(num+0.5)
+
 #include<math.h>
 #include<assert.h>
 #include<iostream>
@@ -62,7 +66,7 @@ public:
   void Normalize(); //单位化向量
   float Norm();     //向量的模
   void OutPutVector2();
-  void ExchangeXY();
+  Vector2 ExchangeXY();
 
   Vector2 operator= (const Vector2& tmp_v2);
   operator Vector3();
@@ -139,7 +143,9 @@ private:
 
   /*矩阵的运算*/
   Matrix operator*(const Matrix& m1, const Matrix& m2);
-  /*其他*/
+  /*其他数学函数*/
   bool IsEqual(float a, float b,float c);
+  float MaxNum(float a, float b, float c);
+  float MinNum(float a, float b, float c);
 }
 #endif // !_MY_MATH_H_

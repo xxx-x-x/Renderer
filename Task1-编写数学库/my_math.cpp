@@ -21,7 +21,8 @@ namespace XX_XZH {
     z_ = tmp_v3.z_;
     w_ = tmp_v3.w_;
   }
-  Vector3::~Vector3() {}
+  Vector3::~Vector3() {
+  }
   float Vector3::GetX()const {
     return x_;
   }
@@ -161,7 +162,8 @@ namespace XX_XZH {
     y_ = tmp_v2.y_;
     w_ = tmp_v2.w_;
   }
-  Vector2::~Vector2(){}
+  Vector2::~Vector2(){
+  }
   float Vector2::GetX()const {
     return x_;
   }
@@ -193,11 +195,9 @@ namespace XX_XZH {
   void Vector2::OutPutVector2() {
     std::cout << "Vector2:" << this->GetX() << "," << this->GetY() << std::endl;
   }
-  void Vector2::ExchangeXY()
+  Vector2 Vector2::ExchangeXY()
   {
-    float tmp = x_;
-    x_ = y_;
-    y_ = tmp;
+    return Vector2(y_, x_);
   }
   Vector2 Vector2::operator=(const Vector2& tmp_v2) {
     this->x_ = tmp_v2.x_;
@@ -438,10 +438,58 @@ namespace XX_XZH {
       }
     }
     return tmp_matrix;
-  }  
+  }
+  /*º¯Êý×¢ÊÍ£ºÐèÒªÅÐ¶Ï·ûºÅÊÇ·ñÏàµÈ£¬1Ëã·ûºÅ£¬2·ûºÅÔËËã*/
   bool IsEqual(float a, float b, float c)
   {
-    return ((int)a >> 31 ^ (int)b >> 31 ^ (int)c >> 31) == 0 ? true : false;
+    if (a >= 0 && b >= 0 && c >= 0) {
+      return true;
+    }
+    else if (a <= 0 && b <= 0 && c <= 0) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+
+  float MaxNum(float a, float b, float c)
+  {
+    if (a >= b) {
+      if (a >= c) {
+        return a;
+      }
+      else {
+        return c;
+      }
+    }
+    else {
+      if (b >= c) {
+        return b;
+      }
+      else {
+        return c;
+      }
+    }
+  }
+  float MinNum(float a, float b, float c)
+  {
+    if (a <= b) {
+      if (a <= c) {
+        return a;
+      }
+      else {
+        return c;
+      }
+    }
+    else {
+      if (b <= c) {
+        return b;
+      }
+      else {
+        return c;
+      }
+    }
   }
 
 }

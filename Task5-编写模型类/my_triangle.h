@@ -20,7 +20,10 @@ namespace XX_XZH {
     Triangle();
     Triangle(Vector2 dots_a, Vector2 dots_b, Vector2 dots_c);
     virtual ~Triangle();
-    friend const int DotInside(Triangle tmp_tri, float dot_x,float dot_y);
+    friend const int DotInside(Triangle& tmp_tri, float dot_x,float dot_y);
+
+    const Vector2* GetTriangleDots() const;
+    void OutputTriangle()const;
   private:
     Vector2* triangle_dots;
   };
@@ -29,6 +32,6 @@ namespace XX_XZH {
   * 这个点与三角形三个顶点构成向量与三条边向量叉乘
   * 结果右移31位只保留符号，异或三个结果，如果为0，则在三角形内
   */
-  const int DotInside(Triangle tmp_tri,const float dot_x,const float dot_y);
+  const int DotInside(Triangle& tmp_tri,const float dot_x,const float dot_y);
 }
 #endif // !_MY_TRIANGLE_H_

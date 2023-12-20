@@ -11,12 +11,16 @@ namespace XX_XZH {
   {
     SetPixel(hdc, dot_location.GetX(), dot_location.GetY(), RGB(255, 0, 0));
   }
+	void DrawDot(HDC& hdc, int x, int y)
+	{
+		SetPixel(hdc, x, y, RGB(255, 0, 0));
+	}
 	/*函数注释：使用DDA算法进行画线
 	* 画线原理：
 	* 过计算斜率，然后计算出每个x+1时，y的增量，然后判断是否大于0.5，如果大于0.5，则绘制点的y值加1
 	* 如果斜率大于1，则将斜率取倒数，然后计算出每个y+1时，x的增量，然后判断是否大于0.5，如果大于0.5，则绘制点的x值加1
 	*/
-  void DrawLineUseDDA(HDC& hdc, Vector3& start_location, Vector3& end_location)
+  void DrawLineUseDDA(HDC& hdc, Vector3 start_location, Vector3 end_location)
   {
     //我断言两个点的齐次坐标都是1
     assert(start_location.GetW() == 1);
@@ -26,12 +30,12 @@ namespace XX_XZH {
     //计算截距
     float b = start_location.GetY() - k * start_location.GetX();
 		//如果斜率大于1，x = (1/3)y + 1
-		if (k > 1) {
+		if (k > 1 || k < -1) {
 			k = 1 / k;
 			//此时的k已经取倒数了，所以b的计算方式也要变化
 			b = start_location.GetX() - k * start_location.GetY();
 			//xy轴的（1，2）点 变成 yx轴的（2，1）点
-			
+			start_location.ExchangeXY(); end_location.ExchangeXY();
 		}
     //创建一个二维点坐标，标志着初始点
     Vector2 tmp_dot(start_location.GetX(),start_location.GetY());
@@ -43,14 +47,85 @@ namespace XX_XZH {
       tmp_dot.SetX(x);
       DrawDot(hdc,tmp_dot);
     }
-		for(int y = start_location.GetY();y<end_location.GetY();y++){
-      //这个点的x值，减去绘制点的x值，如果大于0.5，则绘制点的x值加1
-			(k * y + b) - (tmp_dot.GetX()) > 0.5 ? tmp_dot.SetX(tmp_dot.GetX() + 1) : tmp_dot.SetX(tmp_dot.GetX());
-			tmp_dot.SetX(y);
-			DrawDot(hdc, tmp_dot);
-		}
   }
-  void DrawLineUseDDALegacy(HDC& hdc, Vector3& start_location, Vector3& end_location)
+	void DrawLineUseDDAv1(HDC& hdc, Vector3 start_location, Vector3 end_location)
+	{
+		//求水平垂直距离
+		int dx = start_location.GetX() - end_location.GetX();
+		int dy = start_location.GetY() - end_location.GetY();
+		if (dy == 0) {
+			//从小的开始画
+			int start_x = start_location.GetX() < end_location.GetX() ? start_location.GetX() : end_location.GetX();
+			//画到大的结束
+			int end_x = start_location.GetX() < end_location.GetX() ? end_location.GetX() : start_location.GetX();
+      //水平线
+			for (int x = start_x; x < end_x; x++) {
+        DrawDot(hdc, x, start_location.GetY());
+      }
+			return void();
+		}
+		if (dx == 0) {
+			//从小的开始画
+			int start_y = start_location.GetY() < end_location.GetY() ? start_location.GetY() : end_location.GetY();
+			//画到大的结束
+			int end_y = start_location.GetY() < end_location.GetY() ? end_location.GetY() : start_location.GetY();
+      //垂直线
+			for (int y = start_y; y < end_y; y++) {
+        DrawDot(hdc, start_location.GetX(), y);
+      }
+			return void();
+		}
+		//求斜率
+		float k = float(dy) / dx;
+			//定义起始点
+		if (k >= -1 && k <= 1) {
+			//从小点开始往大点画
+			if (start_location.GetX() > end_location.GetX()) {
+        //交换起始点
+        Vector3 tmp = start_location;
+        start_location = end_location;
+        end_location = tmp;
+			}
+      int x;
+      float y = start_location.GetY();
+      //循环
+      for (x = start_location.GetX(); x < end_location.GetX(); x++) {
+        //绘制点
+        DrawDot(hdc, x, ROUND(y));
+        //计算y值
+        y += k;
+      }
+		}
+		else if (k > 1 && dx != 0) {
+			//从小点开始往大点画
+			if (start_location.GetY() > end_location.GetY()) {
+        //交换起始点
+        Vector3 tmp = start_location;
+        start_location = end_location;
+        end_location = tmp;
+			}
+			int y;
+			float x = start_location.GetX();
+			//循环
+			for (y = start_location.GetY(); y < end_location.GetY(); y++) {
+				//绘制点
+				DrawDot(hdc, ROUND(x), y);
+				//计算y值
+				x += 1 / k;
+			}
+		}else if(k<-1 && dx != 0) {
+      int y;
+      float x = start_location.GetX();
+      //循环
+      for (y = start_location.GetY(); y > end_location.GetY(); y--) {
+        //绘制点
+        DrawDot(hdc, ROUND(x), y);
+        //计算y值
+        x -= 1 / k;
+      }
+    }
+	}
+  void DrawLineUseDDALegacy(HDC& hdc, Vector3 start_location, Vector3 end_location)
   {
 		//我断言两个点的齐次坐标都是1
 		assert(start_location.GetW() == 1);
@@ -94,4 +169,19 @@ namespace XX_XZH {
 		}
 		p0 = p1;
   }
+	void DrawTriangleUseAABB(HDC& hdc, Triangle& triangle) {
+		//调用数学库中的计算最大最小值函数
+		float max_x = MAX_NUM(triangle.GetTriangleDots()[0].GetX(), triangle.GetTriangleDots()[1].GetX(), triangle.GetTriangleDots()[2].GetX());
+		float max_y = MAX_NUM(triangle.GetTriangleDots()[0].GetY(), triangle.GetTriangleDots()[1].GetY(), triangle.GetTriangleDots()[2].GetY());
+		float min_x = MIN_NUM(triangle.GetTriangleDots()[0].GetX(), triangle.GetTriangleDots()[1].GetX(), triangle.GetTriangleDots()[2].GetX());
+		float min_y = MIN_NUM(triangle.GetTriangleDots()[0].GetY(), triangle.GetTriangleDots()[1].GetY(), triangle.GetTriangleDots()[2].GetY());
+		//光栅化，左下开始，右上结束
+		for (int i = (int)min_y; i < (int)max_y; i++) {
+			for (int j = (int)min_x; j < (int)max_x; j++) {
+				if (DotInside(triangle, j, i)) {
+					DrawDot(hdc, j, i);
+				}
+			}
+		}
+	}
 }
