@@ -124,11 +124,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
   PAINTSTRUCT ps;
 
   HDC hdc;
-  TCHAR greeting[] = _T("Hello, Windows desktop!");
-  HPEN hp;
-  hp = CreatePen(1, 3, RGB(0, 0, 0)); 
 
-  //如果尝试旧版本，请删除双斜杠
+  //如果尝试无缓冲，请删除双斜杠
   //Vector2 v1(100, 100);
   //Vector2 v2(300, 300);
   //Vector2 v3(300, 100);
@@ -138,17 +135,16 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
   {
   case WM_PAINT:
     hdc = BeginPaint(hWnd, &ps);
-    SelectObject(hdc, hp);
-    //如果尝试旧版本，请删除双斜杠
+
+    //如果尝试无缓冲，请删除双斜杠
     //DrawLineUseDDAv1(hdc, v2, v1);
     //DrawLineUseDDAv1(hdc, v1, v3);
     //DrawLineUseDDAv1(hdc, v2, v3);
     //DrawTriangleUseAABB(hdc, tri);
-    TextOut(hdc,5, 5,greeting, _tcslen(greeting));
-    //如果尝试旧版本，请将DrawPicture函数注释掉
+    //如果尝试无缓冲，请将DrawPicture函数注释掉
     DrawPicture(hWnd);
+    
     ReleaseDC(hWnd, hdc);
-    DeleteObject(hp);
     EndPaint(hWnd, &ps);
     break;
   case WM_DESTROY:
@@ -163,13 +159,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 }
 
 int DrawPicture(HWND hWnd) {
-  /*开始双缓冲算法实现*/
+  /*开始双缓冲算法实现*/  
   //得到屏幕设备上下文
   HDC WindowsDC = GetDC(hWnd);
   //创建一个内存设备上下文
   HDC MemoryDC = CreateCompatibleDC(WindowsDC);
   //如果内存DC创建失败，打印消息
-  if (!MemoryDC) {
+  if (MemoryDC == 0) {
     MessageBox(NULL,
       _T("Call to CreateCompatibleDC failed!"),
       _T("Windows Desktop Guided Tour"),
@@ -179,6 +175,14 @@ int DrawPicture(HWND hWnd) {
   HBITMAP MemoryBitmap = CreateCompatibleBitmap(WindowsDC, MAX_WIDTH, MAX_HEIGHT);
   //将位图选入内存设备上下文,保存旧位图
   SelectObject(MemoryDC, MemoryBitmap);
+
+  //画图区域--------------------------------------------------
+  //画图区域--------------------------------------------------
+  //区域填充颜色
+  FillRect(MemoryDC, new RECT{ 0,0,MAX_WIDTH,MAX_HEIGHT }, (HBRUSH)(COLOR_WINDOW + 1));
+  //帧数
+  TCHAR greeting[] = _T("FPS:353");
+  TextOut(MemoryDC,5, 5,greeting, _tcslen(greeting));
   //在内存位图上绘制
   Vector2 v1(100, 100);
   Vector2 v2(300, 300);
@@ -189,6 +193,8 @@ int DrawPicture(HWND hWnd) {
   DrawLineUseDDAv1(MemoryDC, v1, v3);
   DrawLineUseDDAv1(MemoryDC, v2, v3);
   DrawTriangleUseAABB(MemoryDC, tri);
+  //画图区域--------------------------------------------------
+  //画图区域--------------------------------------------------
   //将内存DC到主DC1上
   BitBlt(WindowsDC, 0, 0, MAX_WIDTH, MAX_HEIGHT, MemoryDC, 0, 0, SRCCOPY);
   //删除内存位图
