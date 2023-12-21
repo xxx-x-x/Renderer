@@ -8,7 +8,13 @@
 
 ## 二、数学库的编写
 
+### 2.1 二维向量
 
+​	向量私有变量应该包括，横坐标x，纵坐标y，齐次坐标z
+
+### 2.2 三维向量
+
+### 2.3 自定义阶数的矩阵
 
 ## 三、工具类的编写
 
@@ -78,11 +84,22 @@ int value = _wtoi( tempstr.c_str());
 #### 参考文献：
 
 1. [GAMES101-现代计算机图形学入门-闫令琪](https://www.bilibili.com/video/BV1X7411F744/?spm_id_from=333.337.search-card.all.click&vd_source=26caf3f7dc50266646d431ae50462531)
+
 2. [计算机图形学系列笔记](https://www.zhihu.com/column/c_1249465121615204352)
+
 3. [演练：创建Windows桌面应用程序](https://learn.microsoft.com/zh-cn/cpp/windows/walkthrough-creating-windows-desktop-applications-cpp?view=msvc-170)
+
 4. [DeleteDC() ReleaseDC()和DeleteObject()之间的区别](https://blog.csdn.net/oyhb_1992/article/details/78794217)
+
 5. [位图，设备上下文和BitBlt](http://winprog.org/tutorial/zh/bitmaps_cn.html)
+
 6. [releaseDC函数](https://learn.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-releasedc)
+
 7. [C++字符串转换，我人给转麻了](https://www.cnblogs.com/kevinWu7/p/10163535.html)
+
 8. [C / C++ 中的计时函数: clock()](https://blog.csdn.net/wy_bk/article/details/89213965)
+
+9. [windows获取高精度时间](https://blog.csdn.net/weixin_40311850/article/details/105556058)
+
+   
 
