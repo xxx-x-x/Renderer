@@ -1,8 +1,8 @@
-/*
-* ÎÄ¼şÃû£ºmy_tools.h
-* ×÷ÕßĞÅÏ¢£ºĞ»ÔóºÆ
-* ÖØ¹¹Ê±¼ä£º2023-12-17
-* ÎÄ¼şÄÚÈİ£ºwin API»æÍ¼¹ı³ÌÖĞËùĞèÒªµÄ¹¤¾ßÀà
+ï»¿/*
+* æ–‡ä»¶åï¼šmy_tools.h
+* ä½œè€…ä¿¡æ¯ï¼šè°¢æ³½æµ©
+* é‡æ„æ—¶é—´ï¼š2023-12-17
+* æ–‡ä»¶å†…å®¹ï¼šwin APIç»˜å›¾è¿‡ç¨‹ä¸­æ‰€éœ€è¦çš„å·¥å…·ç±»
 * Copyright 2023 - 2099 xx-xzh.All Rights Reserved.
 */
 #include"my_tools.h"
@@ -15,34 +15,34 @@ namespace XX_XZH {
 	{
 		SetPixel(hdc, x, y, RGB(255, 0, 0));
 	}
-	/*º¯Êı×¢ÊÍ£ºÊ¹ÓÃDDAËã·¨½øĞĞ»­Ïß
-	* »­ÏßÔ­Àí£º
-	* ¹ı¼ÆËãĞ±ÂÊ£¬È»ºó¼ÆËã³öÃ¿¸öx+1Ê±£¬yµÄÔöÁ¿£¬È»ºóÅĞ¶ÏÊÇ·ñ´óÓÚ0.5£¬Èç¹û´óÓÚ0.5£¬Ôò»æÖÆµãµÄyÖµ¼Ó1
-	* Èç¹ûĞ±ÂÊ´óÓÚ1£¬Ôò½«Ğ±ÂÊÈ¡µ¹Êı£¬È»ºó¼ÆËã³öÃ¿¸öy+1Ê±£¬xµÄÔöÁ¿£¬È»ºóÅĞ¶ÏÊÇ·ñ´óÓÚ0.5£¬Èç¹û´óÓÚ0.5£¬Ôò»æÖÆµãµÄxÖµ¼Ó1
+	/*å‡½æ•°æ³¨é‡Šï¼šä½¿ç”¨DDAç®—æ³•è¿›è¡Œç”»çº¿
+	* ç”»çº¿åŸç†ï¼š
+	* è¿‡è®¡ç®—æ–œç‡ï¼Œç„¶åè®¡ç®—å‡ºæ¯ä¸ªx+1æ—¶ï¼Œyçš„å¢é‡ï¼Œç„¶ååˆ¤æ–­æ˜¯å¦å¤§äº0.5ï¼Œå¦‚æœå¤§äº0.5ï¼Œåˆ™ç»˜åˆ¶ç‚¹çš„yå€¼åŠ 1
+	* å¦‚æœæ–œç‡å¤§äº1ï¼Œåˆ™å°†æ–œç‡å–å€’æ•°ï¼Œç„¶åè®¡ç®—å‡ºæ¯ä¸ªy+1æ—¶ï¼Œxçš„å¢é‡ï¼Œç„¶ååˆ¤æ–­æ˜¯å¦å¤§äº0.5ï¼Œå¦‚æœå¤§äº0.5ï¼Œåˆ™ç»˜åˆ¶ç‚¹çš„xå€¼åŠ 1
 	*/
   void DrawLineUseDDA(HDC& hdc, Vector3 start_location, Vector3 end_location)
   {
-    //ÎÒ¶ÏÑÔÁ½¸öµãµÄÆë´Î×ø±ê¶¼ÊÇ1
+    //æˆ‘æ–­è¨€ä¸¤ä¸ªç‚¹çš„é½æ¬¡åæ ‡éƒ½æ˜¯1
     assert(start_location.GetW() == 1);
     assert(end_location.GetW() == 1);
-    //¼ÆËãĞ±ÂÊ y = 3x - 3
+    //è®¡ç®—æ–œç‡ y = 3x - 3
     float k = (end_location.GetY() - start_location.GetY()) / (end_location.GetX() - start_location.GetX());
-    //¼ÆËã½Ø¾à
+    //è®¡ç®—æˆªè·
     float b = start_location.GetY() - k * start_location.GetX();
-		//Èç¹ûĞ±ÂÊ´óÓÚ1£¬x = (1/3)y + 1
+		//å¦‚æœæ–œç‡å¤§äº1ï¼Œx = (1/3)y + 1
 		if (k > 1 || k < -1) {
 			k = 1 / k;
-			//´ËÊ±µÄkÒÑ¾­È¡µ¹ÊıÁË£¬ËùÒÔbµÄ¼ÆËã·½Ê½Ò²Òª±ä»¯
+			//æ­¤æ—¶çš„kå·²ç»å–å€’æ•°äº†ï¼Œæ‰€ä»¥bçš„è®¡ç®—æ–¹å¼ä¹Ÿè¦å˜åŒ–
 			b = start_location.GetX() - k * start_location.GetY();
-			//xyÖáµÄ£¨1£¬2£©µã ±ä³É yxÖáµÄ£¨2£¬1£©µã
+			//xyè½´çš„ï¼ˆ1ï¼Œ2ï¼‰ç‚¹ å˜æˆ yxè½´çš„ï¼ˆ2ï¼Œ1ï¼‰ç‚¹
 			start_location.ExchangeXY(); end_location.ExchangeXY();
 		}
-    //´´½¨Ò»¸ö¶şÎ¬µã×ø±ê£¬±êÖ¾×Å³õÊ¼µã
+    //åˆ›å»ºä¸€ä¸ªäºŒç»´ç‚¹åæ ‡ï¼Œæ ‡å¿—ç€åˆå§‹ç‚¹
     Vector2 tmp_dot(start_location.GetX(),start_location.GetY());
-    //ÅĞ¶Ïx+1Ê±£¬yµÄÔöÁ¿
+    //åˆ¤æ–­x+1æ—¶ï¼Œyçš„å¢é‡
     for (int x = start_location.GetX();x < end_location.GetX(); x++)
     {
-      //Õâ¸öµãµÄyÖµ£¬¼õÈ¥»æÖÆµãµÄyÖµ£¬Èç¹û´óÓÚ0.5£¬Ôò»æÖÆµãµÄyÖµ¼Ó1
+      //è¿™ä¸ªç‚¹çš„yå€¼ï¼Œå‡å»ç»˜åˆ¶ç‚¹çš„yå€¼ï¼Œå¦‚æœå¤§äº0.5ï¼Œåˆ™ç»˜åˆ¶ç‚¹çš„yå€¼åŠ 1
       (k * x + b) - (tmp_dot.GetY()) > 0.5 ? tmp_dot.SetY(tmp_dot.GetY() + 1) : tmp_dot.SetY(tmp_dot.GetY());
       tmp_dot.SetX(x);
       DrawDot(hdc,tmp_dot);
@@ -50,90 +50,90 @@ namespace XX_XZH {
   }
 	void DrawLineUseDDAv1(HDC& hdc, Vector3 start_location, Vector3 end_location)
 	{
-		//ÇóË®Æ½´¹Ö±¾àÀë
+		//æ±‚æ°´å¹³å‚ç›´è·ç¦»
 		int dx = start_location.GetX() - end_location.GetX();
 		int dy = start_location.GetY() - end_location.GetY();
 		if (dy == 0) {
-			//´ÓĞ¡µÄ¿ªÊ¼»­
+			//ä»å°çš„å¼€å§‹ç”»
 			int start_x = start_location.GetX() < end_location.GetX() ? start_location.GetX() : end_location.GetX();
-			//»­µ½´óµÄ½áÊø
+			//ç”»åˆ°å¤§çš„ç»“æŸ
 			int end_x = start_location.GetX() < end_location.GetX() ? end_location.GetX() : start_location.GetX();
-      //Ë®Æ½Ïß
+      //æ°´å¹³çº¿
 			for (int x = start_x; x < end_x; x++) {
         DrawDot(hdc, x, start_location.GetY());
       }
 			return void();
 		}
 		if (dx == 0) {
-			//´ÓĞ¡µÄ¿ªÊ¼»­
+			//ä»å°çš„å¼€å§‹ç”»
 			int start_y = start_location.GetY() < end_location.GetY() ? start_location.GetY() : end_location.GetY();
-			//»­µ½´óµÄ½áÊø
+			//ç”»åˆ°å¤§çš„ç»“æŸ
 			int end_y = start_location.GetY() < end_location.GetY() ? end_location.GetY() : start_location.GetY();
-      //´¹Ö±Ïß
+      //å‚ç›´çº¿
 			for (int y = start_y; y < end_y; y++) {
         DrawDot(hdc, start_location.GetX(), y);
       }
 			return void();
 		}
-		//ÇóĞ±ÂÊ
+		//æ±‚æ–œç‡
 		float k = float(dy) / dx;
-			//¶¨ÒåÆğÊ¼µã
+			//å®šä¹‰èµ·å§‹ç‚¹
 		if (k >= -1 && k <= 1) {
-			//´ÓĞ¡µã¿ªÊ¼Íù´óµã»­
+			//ä»å°ç‚¹å¼€å§‹å¾€å¤§ç‚¹ç”»
 			if (start_location.GetX() > end_location.GetX()) {
-        //½»»»ÆğÊ¼µã
+        //äº¤æ¢èµ·å§‹ç‚¹
         Vector3 tmp = start_location;
         start_location = end_location;
         end_location = tmp;
 			}
       int x;
       float y = start_location.GetY();
-      //Ñ­»·
+      //å¾ªç¯
       for (x = start_location.GetX(); x < end_location.GetX(); x++) {
-        //»æÖÆµã
+        //ç»˜åˆ¶ç‚¹
         DrawDot(hdc, x, ROUND(y));
-        //¼ÆËãyÖµ
+        //è®¡ç®—yå€¼
         y += k;
       }
 		}
 		else if (k > 1 && dx != 0) {
-			//´ÓĞ¡µã¿ªÊ¼Íù´óµã»­
+			//ä»å°ç‚¹å¼€å§‹å¾€å¤§ç‚¹ç”»
 			if (start_location.GetY() > end_location.GetY()) {
-        //½»»»ÆğÊ¼µã
+        //äº¤æ¢èµ·å§‹ç‚¹
         Vector3 tmp = start_location;
         start_location = end_location;
         end_location = tmp;
 			}
 			int y;
 			float x = start_location.GetX();
-			//Ñ­»·
+			//å¾ªç¯
 			for (y = start_location.GetY(); y < end_location.GetY(); y++) {
-				//»æÖÆµã
+				//ç»˜åˆ¶ç‚¹
 				DrawDot(hdc, ROUND(x), y);
-				//¼ÆËãyÖµ
+				//è®¡ç®—yå€¼
 				x += 1 / k;
 			}
 		}else if(k<-1 && dx != 0) {
       int y;
       float x = start_location.GetX();
-      //Ñ­»·
+      //å¾ªç¯
       for (y = start_location.GetY(); y > end_location.GetY(); y--) {
-        //»æÖÆµã
+        //ç»˜åˆ¶ç‚¹
         DrawDot(hdc, ROUND(x), y);
-        //¼ÆËãyÖµ
+        //è®¡ç®—yå€¼
         x -= 1 / k;
       }
     }
 	}
   void DrawLineUseDDALegacy(HDC& hdc, Vector3 start_location, Vector3 end_location)
   {
-		//ÎÒ¶ÏÑÔÁ½¸öµãµÄÆë´Î×ø±ê¶¼ÊÇ1
+		//æˆ‘æ–­è¨€ä¸¤ä¸ªç‚¹çš„é½æ¬¡åæ ‡éƒ½æ˜¯1
 		assert(start_location.GetW() == 1);
 		assert(end_location.GetW() == 1);
-		//´´½¨Á½¸öµãÓÃÀ´½ÓÊÕ
+		//åˆ›å»ºä¸¤ä¸ªç‚¹ç”¨æ¥æ¥æ”¶
 		Vector3 p0 = start_location;
 		Vector3 p1 = end_location;
-		//¼ÆËãXÖáµÄ×î´ó²îÖµºÍYÖáµÄ×î´ó²îÖµ
+		//è®¡ç®—Xè½´çš„æœ€å¤§å·®å€¼å’ŒYè½´çš„æœ€å¤§å·®å€¼
 		int dx = abs(p1.GetX() - p0.GetX());
 		int dy = abs(p1.GetY() - p0.GetY());
 		BOOL bInterChange = FALSE;
@@ -147,7 +147,7 @@ namespace XX_XZH {
 			bInterChange = TRUE;
 		}
 		e = -dx;
-		Vector3 p = p0; // ÓÃÀ´½ÓÊÕÆğµã
+		Vector3 p = p0; // ç”¨æ¥æ¥æ”¶èµ·ç‚¹
 		for (int i = 0; i < dx; i++) {
 			SetPixel(hdc, p.GetX(), p.GetY(), RGB(0, 0, 0));
 			if (bInterChange) {
@@ -170,12 +170,12 @@ namespace XX_XZH {
 		p0 = p1;
   }
 	void DrawTriangleUseAABB(HDC& hdc, Triangle& triangle) {
-		//µ÷ÓÃÊıÑ§¿âÖĞµÄ¼ÆËã×î´ó×îĞ¡Öµº¯Êı
+		//è°ƒç”¨æ•°å­¦åº“ä¸­çš„è®¡ç®—æœ€å¤§æœ€å°å€¼å‡½æ•°
 		float max_x = MAX_NUM(triangle.GetTriangleDots()[0].GetX(), triangle.GetTriangleDots()[1].GetX(), triangle.GetTriangleDots()[2].GetX());
 		float max_y = MAX_NUM(triangle.GetTriangleDots()[0].GetY(), triangle.GetTriangleDots()[1].GetY(), triangle.GetTriangleDots()[2].GetY());
 		float min_x = MIN_NUM(triangle.GetTriangleDots()[0].GetX(), triangle.GetTriangleDots()[1].GetX(), triangle.GetTriangleDots()[2].GetX());
 		float min_y = MIN_NUM(triangle.GetTriangleDots()[0].GetY(), triangle.GetTriangleDots()[1].GetY(), triangle.GetTriangleDots()[2].GetY());
-		//¹âÕ¤»¯£¬×óÏÂ¿ªÊ¼£¬ÓÒÉÏ½áÊø
+		//å…‰æ …åŒ–ï¼Œå·¦ä¸‹å¼€å§‹ï¼Œå³ä¸Šç»“æŸ
 		for (int i = (int)min_y; i < (int)max_y; i++) {
 			for (int j = (int)min_x; j < (int)max_x; j++) {
 				if (DotInside(triangle, j, i)) {

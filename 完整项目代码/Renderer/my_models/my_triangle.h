@@ -1,8 +1,8 @@
-/*
-* ÎÄ¼þÃû£ºmy_triangle.h
-* ×÷ÕßÐÅÏ¢£ºÐ»ÔóºÆ
-* ÖØ¹¹Ê±¼ä£º2023-12-18
-* ÎÄ¼þÄÚÈÝ£ºÄ£ÐÍ×î»ù´¡µÄÈý½ÇÃæÆ¬
+ï»¿/*
+* æ–‡ä»¶åï¼šmy_triangle.h
+* ä½œè€…ä¿¡æ¯ï¼šè°¢æ³½æµ©
+* é‡æž„æ—¶é—´ï¼š2023-12-18
+* æ–‡ä»¶å†…å®¹ï¼šæ¨¡åž‹æœ€åŸºç¡€çš„ä¸‰è§’é¢ç‰‡
 * Copyright 2023 - 2099 xx-xzh.All Rights Reserved.
 */
 #ifndef _MY_TRIANGLE_H_
@@ -10,10 +10,10 @@
 #include"../my_math/my_math.h"
 namespace XX_XZH {
   enum IS_INSIDE {OUTSIDE=0,INSIDE,ONLINE};
-  /*Àà×¢ÊÍ£ºTriangleÊÇÈý½ÇÐÎÀà
-  * ¸ÃÀàÓÉÈý¸öµã¹¹³É£¬ËùÒÔÓ¦¸ÃÓÐÈý¸öµã×ø±ê
-  * ¸ÃÀàÓ¦¸ÃÌá¹©Ò»¸öÅÐ¶ÏÏñËØµãÊÇ·ñÔÚÈý½ÇÐÎÄÚµÄº¯Êý
-  * ²æ³ËÖ®ºóÅÐ¶Ï£¬ÓÒÒÆ31Î»£¬Èç¹ûÎª0£¬ÔòÔÚÈý½ÇÐÎÄÚ
+  /*ç±»æ³¨é‡Šï¼šTriangleæ˜¯ä¸‰è§’å½¢ç±»
+  * è¯¥ç±»ç”±ä¸‰ä¸ªç‚¹æž„æˆï¼Œæ‰€ä»¥åº”è¯¥æœ‰ä¸‰ä¸ªç‚¹åæ ‡
+  * è¯¥ç±»åº”è¯¥æä¾›ä¸€ä¸ªåˆ¤æ–­åƒç´ ç‚¹æ˜¯å¦åœ¨ä¸‰è§’å½¢å†…çš„å‡½æ•°
+  * å‰ä¹˜ä¹‹åŽåˆ¤æ–­ï¼Œå³ç§»31ä½ï¼Œå¦‚æžœä¸º0ï¼Œåˆ™åœ¨ä¸‰è§’å½¢å†…
   */
   class Triangle {
   public:
@@ -27,10 +27,10 @@ namespace XX_XZH {
   private:
     Vector2* triangle_dots;
   };
-  /*È«¾Öº¯Êý×¢ÊÍ£ºÅÐ¶Ïµã£¬ÊÇ·ñÔÚÈý½ÇÐÎÄÚ
-  * ¶¨ÒåË¼Â·£º
-  * Õâ¸öµãÓëÈý½ÇÐÎÈý¸ö¶¥µã¹¹³ÉÏòÁ¿ÓëÈýÌõ±ßÏòÁ¿²æ³Ë
-  * ½á¹ûÓÒÒÆ31Î»Ö»±£Áô·ûºÅ£¬Òì»òÈý¸ö½á¹û£¬Èç¹ûÎª0£¬ÔòÔÚÈý½ÇÐÎÄÚ
+  /*å…¨å±€å‡½æ•°æ³¨é‡Šï¼šåˆ¤æ–­ç‚¹ï¼Œæ˜¯å¦åœ¨ä¸‰è§’å½¢å†…
+  * å®šä¹‰æ€è·¯ï¼š
+  * è¿™ä¸ªç‚¹ä¸Žä¸‰è§’å½¢ä¸‰ä¸ªé¡¶ç‚¹æž„æˆå‘é‡ä¸Žä¸‰æ¡è¾¹å‘é‡å‰ä¹˜
+  * ç»“æžœå³ç§»31ä½åªä¿ç•™ç¬¦å·ï¼Œå¼‚æˆ–ä¸‰ä¸ªç»“æžœï¼Œå¦‚æžœä¸º0ï¼Œåˆ™åœ¨ä¸‰è§’å½¢å†…
   */
   const int DotInside(Triangle& tmp_tri,const float dot_x,const float dot_y);
 }

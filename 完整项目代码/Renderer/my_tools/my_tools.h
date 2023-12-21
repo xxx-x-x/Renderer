@@ -1,8 +1,8 @@
-/*
-* ÎÄ¼þÃû£ºmy_tools.h
-* ×÷ÕßÐÅÏ¢£ºÐ»ÔóºÆ
-* ÖØ¹¹Ê±¼ä£º2023-12-17
-* ÎÄ¼þÄÚÈÝ£ºwin API»æÍ¼¹ý³ÌÖÐËùÐèÒªµÄ¹¤¾ßÀà
+ï»¿/*
+* æ–‡ä»¶åï¼šmy_tools.h
+* ä½œè€…ä¿¡æ¯ï¼šè°¢æ³½æµ©
+* é‡æž„æ—¶é—´ï¼š2023-12-17
+* æ–‡ä»¶å†…å®¹ï¼šwin APIç»˜å›¾è¿‡ç¨‹ä¸­æ‰€éœ€è¦çš„å·¥å…·ç±»
 * Copyright 2023 - 2099 xx-xzh.All Rights Reserved.
 */
 #ifndef _MY_TOOLS_H_
@@ -12,21 +12,21 @@
 #include"../my_math/my_math.h"
 #include"../my_models/my_triangle.h"
 namespace XX_XZH {
-  /*º¯Êý×¢ÊÍ£º¸ù¾Ý¶þÎ¬µãÏòÁ¿»­Í¼*/
+  /*å‡½æ•°æ³¨é‡Šï¼šæ ¹æ®äºŒç»´ç‚¹å‘é‡ç”»å›¾*/
   void DrawDot(HDC& hdc, Vector2& dot_location);
   void DrawDot(HDC& hdc, int x, int y);
-  /*º¯Êý×¢ÊÍ£ºÊ¹ÓÃDDAËã·¨½øÐÐ»­Ïß
-  * ²ÎÊýËµÃ÷£ºÊäÈëÆÁÄ»HDC£¬ÆðÊ¼µã×ø±ê£¬ÖÕÖ¹µã×ø±ê£»
+  /*å‡½æ•°æ³¨é‡Šï¼šä½¿ç”¨DDAç®—æ³•è¿›è¡Œç”»çº¿
+  * å‚æ•°è¯´æ˜Žï¼šè¾“å…¥å±å¹•HDCï¼Œèµ·å§‹ç‚¹åæ ‡ï¼Œç»ˆæ­¢ç‚¹åæ ‡ï¼›
   */
-  void DrawLineUseDDA(HDC& hdc,Vector3 start_location,Vector3 end_location);/*Ê¹ÓÃDDAËã·¨»­Ïß*/
-  /*º¯Êý×¢ÊÍ£º£¨legacy£©Ê¹ÓÃDDAËã·¨½øÐÐ»­Ïß
-  * ²ÎÊýËµÃ÷£ºÊäÈëÆÁÄ»HDC£¬ÆðÊ¼µã×ø±ê£¬ÖÕÖ¹µã×ø±ê£»
-  * º¯Êý¼ò½é£ºµ±Ê±Ã»Ð´×¢ÊÍ¡£ÏÖÔÚ¿´²»¶®ÁË£¬µ«ÊÇ¿ÉÒÔÕý³£ÔËÐÐ
+  void DrawLineUseDDA(HDC& hdc,Vector3 start_location,Vector3 end_location);/*ä½¿ç”¨DDAç®—æ³•ç”»çº¿*/
+  /*å‡½æ•°æ³¨é‡Šï¼šï¼ˆlegacyï¼‰ä½¿ç”¨DDAç®—æ³•è¿›è¡Œç”»çº¿
+  * å‚æ•°è¯´æ˜Žï¼šè¾“å…¥å±å¹•HDCï¼Œèµ·å§‹ç‚¹åæ ‡ï¼Œç»ˆæ­¢ç‚¹åæ ‡ï¼›
+  * å‡½æ•°ç®€ä»‹ï¼šå½“æ—¶æ²¡å†™æ³¨é‡Šã€‚çŽ°åœ¨çœ‹ä¸æ‡‚äº†ï¼Œä½†æ˜¯å¯ä»¥æ­£å¸¸è¿è¡Œ
   */
-  void DrawLineUseDDAv1(HDC& hdc, Vector3 start_location, Vector3 end_location);/*Ê¹ÓÃDDAËã·¨»­Ïß*/
-  void DrawLineUseDDALegacy(HDC& hdc, Vector3 start_location, Vector3 end_location);/*Ê¹ÓÃDDAËã·¨»­Ïß*/
-  /*º¯Êý×¢ÊÍ£º¶ÔÈý½ÇÃæÆ¬½øÐÐ×ÅÉ«
-  * ²ÎÊýËµÃ÷£ºÊä³öÆÁÄ»HDC£¬Èý½ÇÃæÆ¬µÄÈý¸ö¶¥µã×ø±ê
+  void DrawLineUseDDAv1(HDC& hdc, Vector3 start_location, Vector3 end_location);/*ä½¿ç”¨DDAç®—æ³•ç”»çº¿*/
+  void DrawLineUseDDALegacy(HDC& hdc, Vector3 start_location, Vector3 end_location);/*ä½¿ç”¨DDAç®—æ³•ç”»çº¿*/
+  /*å‡½æ•°æ³¨é‡Šï¼šå¯¹ä¸‰è§’é¢ç‰‡è¿›è¡Œç€è‰²
+  * å‚æ•°è¯´æ˜Žï¼šè¾“å‡ºå±å¹•HDCï¼Œä¸‰è§’é¢ç‰‡çš„ä¸‰ä¸ªé¡¶ç‚¹åæ ‡
   */
   void DrawTriangleUseAABB(HDC& hdc,Triangle& triangle);
 }

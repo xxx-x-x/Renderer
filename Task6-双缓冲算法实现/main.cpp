@@ -25,7 +25,7 @@ HINSTANCE hInst;
 // Forward declarations of functions included in this code module:
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 
-//ï¿½ï¿½ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+//º¯ÊýÇ°ÖÃÉùÃ÷
 int DrawPicture(HWND hWnd);
 int WINAPI WinMain(
   _In_ HINSTANCE hInstance,
@@ -125,7 +125,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
   HDC hdc;
 
-  //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Þ»ï¿½ï¿½å£¬ï¿½ï¿½É¾ï¿½ï¿½Ë«Ð±ï¿½ï¿½
+  //Èç¹û³¢ÊÔÎÞ»º³å£¬ÇëÉ¾³ýË«Ð±¸Ü
   //Vector2 v1(100, 100);
   //Vector2 v2(300, 300);
   //Vector2 v3(300, 100);
@@ -136,12 +136,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
   case WM_PAINT:
     hdc = BeginPaint(hWnd, &ps);
 
-    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Þ»ï¿½ï¿½å£¬ï¿½ï¿½É¾ï¿½ï¿½Ë«Ð±ï¿½ï¿½
+    //Èç¹û³¢ÊÔÎÞ»º³å£¬ÇëÉ¾³ýË«Ð±¸Ü
     //DrawLineUseDDAv1(hdc, v2, v1);
     //DrawLineUseDDAv1(hdc, v1, v3);
     //DrawLineUseDDAv1(hdc, v2, v3);
     //DrawTriangleUseAABB(hdc, tri);
-    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Þ»ï¿½ï¿½å£¬ï¿½ë½«DrawPictureï¿½ï¿½ï¿½ï¿½×¢ï¿½Íµï¿½
+    //Èç¹û³¢ÊÔÎÞ»º³å£¬Çë½«DrawPictureº¯Êý×¢ÊÍµô
     DrawPicture(hWnd);
     
     ReleaseDC(hWnd, hdc);
@@ -159,48 +159,49 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 }
 
 int DrawPicture(HWND hWnd) {
-  /*ï¿½ï¿½Ê¼Ë«ï¿½ï¿½ï¿½ï¿½ï¿½ã·¨Êµï¿½ï¿½*/  
-  //ï¿½Ãµï¿½ï¿½ï¿½Ä»ï¿½è±¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+  /*¿ªÊ¼Ë«»º³åËã·¨ÊµÏÖ*/  
+  //µÃµ½ÆÁÄ»Éè±¸ÉÏÏÂÎÄ
   HDC WindowsDC = GetDC(hWnd);
-  //ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ú´ï¿½ï¿½è±¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+  //´´½¨Ò»¸öÄÚ´æÉè±¸ÉÏÏÂÎÄ
   HDC MemoryDC = CreateCompatibleDC(WindowsDC);
-  //ï¿½ï¿½ï¿½ï¿½Ú´ï¿½DCï¿½ï¿½ï¿½ï¿½Ê§ï¿½Ü£ï¿½ï¿½ï¿½Ó¡ï¿½ï¿½Ï¢
+  //Èç¹ûÄÚ´æDC´´½¨Ê§°Ü£¬´òÓ¡ÏûÏ¢
   if (MemoryDC == 0) {
     MessageBox(NULL,
       _T("Call to CreateCompatibleDC failed!"),
       _T("Windows Desktop Guided Tour"),
       NULL);
   }
-  //ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ú´ï¿½Î»Í¼
+  //´´½¨Ò»¸öÄÚ´æÎ»Í¼
   HBITMAP MemoryBitmap = CreateCompatibleBitmap(WindowsDC, MAX_WIDTH, MAX_HEIGHT);
-  //ï¿½ï¿½Î»Í¼Ñ¡ï¿½ï¿½ï¿½Ú´ï¿½ï¿½è±¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½,ï¿½ï¿½ï¿½ï¿½ï¿½Î»Í¼
+  //½«Î»Í¼Ñ¡ÈëÄÚ´æÉè±¸ÉÏÏÂÎÄ,±£´æ¾ÉÎ»Í¼
   SelectObject(MemoryDC, MemoryBitmap);
 
-  //ï¿½ï¿½Í¼ï¿½ï¿½ï¿½ï¿½--------------------------------------------------
-  //ï¿½ï¿½Í¼ï¿½ï¿½ï¿½ï¿½--------------------------------------------------
-  //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É«
+  //»­Í¼ÇøÓò--------------------------------------------------
+  //»­Í¼ÇøÓò--------------------------------------------------
+  //ÇøÓòÌî³äÑÕÉ«
   FillRect(MemoryDC, new RECT{ 0,0,MAX_WIDTH,MAX_HEIGHT }, (HBRUSH)(COLOR_WINDOW + 1));
-  //Ö¡ï¿½ï¿½
-
-  //ï¿½ï¿½ï¿½Ú´ï¿½Î»Í¼ï¿½Ï»ï¿½ï¿½ï¿½
+  //Ö¡Êý
+  TCHAR greeting[] = _T("FPS:353");
+  TextOut(MemoryDC,5, 5,greeting, _tcslen(greeting));
+  //ÔÚÄÚ´æÎ»Í¼ÉÏ»æÖÆ
   Vector2 v1(100, 100);
   Vector2 v2(300, 300);
   Vector2 v3(300, 100);
   Triangle tri(v1, v2, v3);
-  //ï¿½ï¿½ï¿½Ô£ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ß¿ï¿½
+  //²âÊÔ£¬»­Ò»¸öÏß¿ò
   DrawLineUseDDAv1(MemoryDC, v2, v1);
   DrawLineUseDDAv1(MemoryDC, v1, v3);
   DrawLineUseDDAv1(MemoryDC, v2, v3);
   DrawTriangleUseAABB(MemoryDC, tri);
-  //ï¿½ï¿½Í¼ï¿½ï¿½ï¿½ï¿½--------------------------------------------------
-  //ï¿½ï¿½Í¼ï¿½ï¿½ï¿½ï¿½--------------------------------------------------
-  //ï¿½ï¿½ï¿½Ú´ï¿½DCï¿½ï¿½ï¿½ï¿½DC1ï¿½ï¿½
+  //»­Í¼ÇøÓò--------------------------------------------------
+  //»­Í¼ÇøÓò--------------------------------------------------
+  //½«ÄÚ´æDCµ½Ö÷DC1ÉÏ
   BitBlt(WindowsDC, 0, 0, MAX_WIDTH, MAX_HEIGHT, MemoryDC, 0, 0, SRCCOPY);
-  //É¾ï¿½ï¿½ï¿½Ú´ï¿½Î»Í¼
+  //É¾³ýÄÚ´æÎ»Í¼
   DeleteObject(MemoryBitmap);
-  //É¾ï¿½ï¿½ï¿½Ú´ï¿½ï¿½è±¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+  //É¾³ýÄÚ´æÉè±¸ÉÏÏÂÎÄ
   DeleteObject(MemoryDC);
-  //ï¿½Í·ï¿½ï¿½ï¿½Ä»ï¿½è±¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+  //ÊÍ·ÅÆÁÄ»Éè±¸ÉÏÏÂÎÄ
   ReleaseDC(hWnd, WindowsDC);
   return 0;
 }

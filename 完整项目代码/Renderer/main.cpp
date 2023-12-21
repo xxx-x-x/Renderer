@@ -1,4 +1,4 @@
-// compile with: /D_UNICODE /DUNICODE /DWIN32 /D_WINDOWS /c
+﻿// compile with: /D_UNICODE /DUNICODE /DWIN32 /D_WINDOWS /c
 
 #include <windows.h>
 #include <stdlib.h>
@@ -25,7 +25,7 @@ HINSTANCE hInst;
 // Forward declarations of functions included in this code module:
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 
-//����ǰ������
+//函数前置声明
 int DrawPicture(HWND hWnd);
 int WINAPI WinMain(
   _In_ HINSTANCE hInstance,
@@ -125,7 +125,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
   HDC hdc;
 
-  //��������޻��壬��ɾ��˫б��
+  //如果尝试无缓冲，请删除双斜杠
   //Vector2 v1(100, 100);
   //Vector2 v2(300, 300);
   //Vector2 v3(300, 100);
@@ -136,12 +136,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
   case WM_PAINT:
     hdc = BeginPaint(hWnd, &ps);
 
-    //��������޻��壬��ɾ��˫б��
+    //如果尝试无缓冲，请删除双斜杠
     //DrawLineUseDDAv1(hdc, v2, v1);
     //DrawLineUseDDAv1(hdc, v1, v3);
     //DrawLineUseDDAv1(hdc, v2, v3);
     //DrawTriangleUseAABB(hdc, tri);
-    //��������޻��壬�뽫DrawPicture����ע�͵�
+    //如果尝试无缓冲，请将DrawPicture函数注释掉
     DrawPicture(hWnd);
     
     ReleaseDC(hWnd, hdc);
@@ -159,49 +159,49 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 }
 
 int DrawPicture(HWND hWnd) {
-  /*��ʼ˫�����㷨ʵ��*/  
-  //�õ���Ļ�豸������
+  /*开始双缓冲算法实现*/  
+  //得到屏幕设备上下文
   HDC WindowsDC = GetDC(hWnd);
-  //����һ���ڴ��豸������
+  //创建一个内存设备上下文
   HDC MemoryDC = CreateCompatibleDC(WindowsDC);
-  //����ڴ�DC����ʧ�ܣ���ӡ��Ϣ
+  //如果内存DC创建失败，打印消息
   if (MemoryDC == 0) {
     MessageBox(NULL,
       _T("Call to CreateCompatibleDC failed!"),
       _T("Windows Desktop Guided Tour"),
       NULL);
   }
-  //����һ���ڴ�λͼ
+  //创建一个内存位图
   HBITMAP MemoryBitmap = CreateCompatibleBitmap(WindowsDC, MAX_WIDTH, MAX_HEIGHT);
-  //��λͼѡ���ڴ��豸������,�����λͼ
+  //将位图选入内存设备上下文,保存旧位图
   SelectObject(MemoryDC, MemoryBitmap);
 
-  //��ͼ����--------------------------------------------------
-  //��ͼ����--------------------------------------------------
-  //���������ɫ
+  //画图区域--------------------------------------------------
+  //画图区域--------------------------------------------------
+  //区域填充颜色
   FillRect(MemoryDC, new RECT{ 0,0,MAX_WIDTH,MAX_HEIGHT }, (HBRUSH)(COLOR_WINDOW + 1));
-  //֡��
+  //帧数
   TCHAR greeting[] = _T("FPS:353");
   TextOut(MemoryDC,5, 5,greeting, _tcslen(greeting));
-  //���ڴ�λͼ�ϻ���
+  //在内存位图上绘制
   Vector2 v1(100, 100);
   Vector2 v2(300, 300);
   Vector2 v3(300, 100);
   Triangle tri(v1, v2, v3);
-  //���ԣ���һ���߿�
+  //测试，画一个线框
   DrawLineUseDDAv1(MemoryDC, v2, v1);
   DrawLineUseDDAv1(MemoryDC, v1, v3);
   DrawLineUseDDAv1(MemoryDC, v2, v3);
   DrawTriangleUseAABB(MemoryDC, tri);
-  //��ͼ����--------------------------------------------------
-  //��ͼ����--------------------------------------------------
-  //���ڴ�DC����DC1��
+  //画图区域--------------------------------------------------
+  //画图区域--------------------------------------------------
+  //将内存DC到主DC1上
   BitBlt(WindowsDC, 0, 0, MAX_WIDTH, MAX_HEIGHT, MemoryDC, 0, 0, SRCCOPY);
-  //ɾ���ڴ�λͼ
+  //删除内存位图
   DeleteObject(MemoryBitmap);
-  //ɾ���ڴ��豸������
+  //删除内存设备上下文
   DeleteObject(MemoryDC);
-  //�ͷ���Ļ�豸������
+  //释放屏幕设备上下文
   ReleaseDC(hWnd, WindowsDC);
   return 0;
 }

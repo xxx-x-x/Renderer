@@ -1,8 +1,8 @@
-/*
-* ÎÄ¼şÃû£ºmy_triangle.cpp
-* ×÷ÕßĞÅÏ¢£ºĞ»ÔóºÆ
-* ÖØ¹¹Ê±¼ä£º2023-12-18
-* ÎÄ¼şÄÚÈİ£ºÄ£ĞÍ×î»ù´¡µÄÈı½ÇÃæÆ¬
+ï»¿/*
+* æ–‡ä»¶åï¼šmy_triangle.cpp
+* ä½œè€…ä¿¡æ¯ï¼šè°¢æ³½æµ©
+* é‡æ„æ—¶é—´ï¼š2023-12-18
+* æ–‡ä»¶å†…å®¹ï¼šæ¨¡å‹æœ€åŸºç¡€çš„ä¸‰è§’é¢ç‰‡
 * Copyright 2023 - 2099 xx-xzh.All Rights Reserved.
 */
 #include "my_triangle.h"
@@ -23,7 +23,7 @@ namespace XX_XZH {
     std::cout << "~Triangle" << std::endl;
     delete []triangle_dots;
   }
-  //¹Ø¼ü´ÊÏŞ¶¨³ÉÔ±±äÁ¿²»±»ĞŞ¸Ä£¬µ«ÊÇ²»ÄÜ·ÀÖ¹Ö¸ÕëÖ¸ÏòµÄÄÚÈİ±»ĞŞ¸Ä
+  //å…³é”®è¯é™å®šæˆå‘˜å˜é‡ä¸è¢«ä¿®æ”¹ï¼Œä½†æ˜¯ä¸èƒ½é˜²æ­¢æŒ‡é’ˆæŒ‡å‘çš„å†…å®¹è¢«ä¿®æ”¹
   const Vector2* Triangle::GetTriangleDots() const
   {
     return triangle_dots;
