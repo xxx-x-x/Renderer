@@ -36,7 +36,44 @@
 
 ​	通过屏幕HWND获取到屏幕DC，然后通过屏幕DC创建兼容的内存DC，我们还需要根据屏幕DC来创建一个内存位图，将内存位图选入内存DC中，然后我们在内存DC中（其实是画在内存位图上的，但是需要使用DC句柄）进行绘制，再将绘制结果拷贝到屏幕DC上，消息循环中，将屏幕DC中的内容绘制出来
 
-​	
+## 六、FPS计算显示
+
+​	暂时使用简单的方法进行绘制
+
+### 6.1 计时函数
+
+​	clock() 函数是 C 标准库 `time.h` 中的一个函数, `time.h` 标准库中定义了各种涉及日期和时间的函数, 变量类型和宏. 其中, clock() 函数可以返回自程序开始执行到当前位置为止, 处理器走过的时钟打点数(*即"ticks", 可以理解为"处理器时间"*). 每过千分之一秒(*即 1 毫秒*)则 clock() 函数的返回值加 1. clock() 计算结果为**毫秒**
+
+### 6.2 帧数变量转字符串
+
+​	TextOut函数只能输入**`LPCWSTR`**类型字符串，所以涉及到字符串转换，我们需要从**`int`**类型转化为**`LPCWSTR`**类型。
+
+​	**头文件导入**
+
+~~~c++
+include<stdlib.h>
+using std::wstring;
+~~~
+
+​	**INT -> LPCWSTR**
+
+~~~c++
+int value = 123;
+wchar_t cha[10];
+_itow_s( value, cha, 10, 10);
+~~~
+
+​	**LPCWSTR -> INT**
+
+```c++
+LPCWSTR wstr = L"abc";
+wstring tempstr( wstr);
+int value = _wtoi( tempstr.c_str());
+```
+
+### 6.3 帧数显示原理
+
+​	在绘制图像开始时，调用**clock()**函数获得程序运行时间，在绘制结束时同样调用**clock ()**来获得程序运行时间，两者做差得到这副画面的渲染时间，帧数表示一秒内渲染器所渲染的画面数量，所以用一秒除以此画面的渲染时间，得到帧率。
 
 #### 参考文献：
 
@@ -47,4 +84,5 @@
 5. [位图，设备上下文和BitBlt](http://winprog.org/tutorial/zh/bitmaps_cn.html)
 6. [releaseDC函数](https://learn.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-releasedc)
 7. [C++字符串转换，我人给转麻了](https://www.cnblogs.com/kevinWu7/p/10163535.html)
+8. [C / C++ 中的计时函数: clock()](https://blog.csdn.net/wy_bk/article/details/89213965)
 
