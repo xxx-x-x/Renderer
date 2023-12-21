@@ -3,6 +3,7 @@
 * 作者信息：谢泽浩
 * 重构时间：2023-12-16
 * 文件内容：计算机图形学使用的数学库
+* 编码格式：UTF-8
 * Copyright 2023 - 2099 xx-xzh.All Rights Reserved.
 */
 #define _USE_MATH_DEFINES

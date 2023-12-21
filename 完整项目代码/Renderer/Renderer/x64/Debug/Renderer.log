@@ -1,3 +1,5 @@
 ﻿  main.cpp
-E:\光栅化渲染器重构\Renderer\main.cpp(185,42): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
+E:\光栅化渲染器重构\Renderer\main.cpp(153,30): warning C4244: “=”: 从“unsigned long”转换到“float”，可能丢失数据
+E:\光栅化渲染器重构\Renderer\main.cpp(155,13): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+E:\光栅化渲染器重构\Renderer\main.cpp(156,34): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
   Renderer.vcxproj -> E:\光栅化渲染器重构\Renderer\x64\Debug\Renderer.exe

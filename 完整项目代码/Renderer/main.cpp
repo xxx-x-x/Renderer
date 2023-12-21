@@ -4,6 +4,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <tchar.h>
+#include <string.h>
+#include<string>
 #include"my_math/my_math.h"
 #include"my_tools/my_tools.h"
 #include"my_models/my_triangle.h"
@@ -26,6 +28,7 @@ HINSTANCE hInst;
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 
 //函数前置声明
+float fps;
 int DrawPicture(HWND hWnd);
 int WINAPI WinMain(
   _In_ HINSTANCE hInstance,
@@ -122,9 +125,8 @@ int WINAPI WinMain(
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
   PAINTSTRUCT ps;
-
   HDC hdc;
-
+  DWORD start, stop;
   //如果尝试无缓冲，请删除双斜杠
   //Vector2 v1(100, 100);
   //Vector2 v2(300, 300);
@@ -134,16 +136,25 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
   switch (message)
   {
   case WM_PAINT:
-    hdc = BeginPaint(hWnd, &ps);
-
+    //开始统计帧数
+    start = clock();
     //如果尝试无缓冲，请删除双斜杠
     //DrawLineUseDDAv1(hdc, v2, v1);
     //DrawLineUseDDAv1(hdc, v1, v3);
     //DrawLineUseDDAv1(hdc, v2, v3);
     //DrawTriangleUseAABB(hdc, tri);
+    hdc = BeginPaint(hWnd, &ps);
     //如果尝试无缓冲，请将DrawPicture函数注释掉
     DrawPicture(hWnd);
-    
+    //统计结束帧数
+    stop = clock();
+    //stop - start 得到这一帧的时间
+    //1000 / (stop - start) 一秒除以时间得到这一帧的帧率
+    fps = (stop - start)*1000/CLOCKS_PER_SEC;
+    wchar_t cha[10];
+    _itow_s(fps, cha, 10, 10);
+    TextOut(hdc,5, 5,cha, _tcslen(cha));
+
     ReleaseDC(hWnd, hdc);
     EndPaint(hWnd, &ps);
     break;
@@ -180,9 +191,6 @@ int DrawPicture(HWND hWnd) {
   //画图区域--------------------------------------------------
   //区域填充颜色
   FillRect(MemoryDC, new RECT{ 0,0,MAX_WIDTH,MAX_HEIGHT }, (HBRUSH)(COLOR_WINDOW + 1));
-  //帧数
-  TCHAR greeting[] = _T("FPS:353");
-  TextOut(MemoryDC,5, 5,greeting, _tcslen(greeting));
   //在内存位图上绘制
   Vector2 v1(100, 100);
   Vector2 v2(300, 300);

@@ -46,4 +46,5 @@
 4. [DeleteDC() ReleaseDC()和DeleteObject()之间的区别](https://blog.csdn.net/oyhb_1992/article/details/78794217)
 5. [位图，设备上下文和BitBlt](http://winprog.org/tutorial/zh/bitmaps_cn.html)
 6. [releaseDC函数](https://learn.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-releasedc)
+7. [C++字符串转换，我人给转麻了](https://www.cnblogs.com/kevinWu7/p/10163535.html)
 

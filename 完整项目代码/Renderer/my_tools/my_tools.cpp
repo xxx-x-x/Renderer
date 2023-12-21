@@ -3,6 +3,7 @@
 * 作者信息：谢泽浩
 * 重构时间：2023-12-17
 * 文件内容：win API绘图过程中所需要的工具类
+* 编码格式：UTF-8
 * Copyright 2023 - 2099 xx-xzh.All Rights Reserved.
 */
 #include"my_tools.h"
