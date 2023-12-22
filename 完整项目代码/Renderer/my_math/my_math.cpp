@@ -16,6 +16,13 @@ namespace XX_XZH {
     w_ = 1;
   }
   Vector3::Vector3(float x, float y, float z) :x_(x), y_(y), z_(z), w_(1) {}
+  Vector3::Vector3(float x, float y, float z, float w)
+  {
+    x_ = x;
+    y_ = y;
+    z_ = z;
+    w_ = w;
+  }
   Vector3::Vector3(const Vector3& tmp_v3) {
     x_ = tmp_v3.x_;
     y_ = tmp_v3.y_;
@@ -60,8 +67,16 @@ namespace XX_XZH {
   float Vector3::Norm() {
     return (float)sqrt(x_ * x_ + y_ * y_ + z_ * z_);
   }
-  void Vector3::OutPutVector3() {
-    std::cout << "Vector3" << this->GetX() << "," << this->GetY() << "," << this->GetZ() << std::endl;
+  void Vector3::Identity()
+  {
+    this->x_ = this->x_ / this->w_;
+    this->y_ = this->y_ / this->w_;
+    this->z_ = this->z_ / this->w_;
+    this->w_ = this->w_ / this->w_;
+  }
+  void Vector3::OutPutVector3()
+  {
+    std::cout << "Vector3:" << this->GetX() << "," << this->GetY() << "," << this->GetZ() << "," << this->GetW() << std::endl;
   }
   void Vector3::ExchangeXY()
   {
@@ -79,6 +94,11 @@ namespace XX_XZH {
   Vector3::operator Vector2()
   {
     return Vector2(x_, y_);
+  }
+  Vector3 Vector3::operator-()
+  {
+    return Vector3(-x_, -y_, -z_,w_);
+    // TODO: 在此处插入 return 语句
   }
   float Dot(const Vector3& left_v3, const Vector3& right_v3) {
     float tmp_result;
@@ -100,6 +120,21 @@ namespace XX_XZH {
     tmp_vector3.SetZ(from.GetZ() + t * (to.GetZ() - from.GetZ()));
     tmp_vector3.SetW(1);
     return tmp_vector3;
+  }
+  float& Vector3::operator[](int index) {
+    if (index == 0) {
+      return x_;
+    }
+    else if (index == 1) {
+      return y_;
+    }
+    else if (index == 2) {
+      return z_;
+    }
+    else if (index == 3) {
+      return w_;
+    }
+    return x_;
   }
   Vector3 operator+(const Vector3& left_v3, const Vector3& right_v3) {
     Vector3 tmp_vector3;
@@ -157,13 +192,13 @@ namespace XX_XZH {
     y_ = 0;
     w_ = 1;
   }
-  Vector2::Vector2(float x, float y):x_(x),y_(y),w_(1){}
+  Vector2::Vector2(float x, float y) :x_(x), y_(y), w_(1) {}
   Vector2::Vector2(const Vector2& tmp_v2) {
     x_ = tmp_v2.x_;
     y_ = tmp_v2.y_;
     w_ = tmp_v2.w_;
   }
-  Vector2::~Vector2(){
+  Vector2::~Vector2() {
   }
   float Vector2::GetX()const {
     return x_;
@@ -267,34 +302,27 @@ namespace XX_XZH {
     return !(left_v2.GetX() == right_v2.GetX() && left_v2.GetY() == right_v2.GetY());
   }
   Matrix::Matrix() {
+    std::cout << "Matrix构造函数调用" << std::endl;
     matrix_order_ = 4;
-    std::vector<float> tmp_vector;
     for (int i = 0; i < 4; i++) {
       for (int j = 0; j < 4; j++) {
         if (i == j) {
-          tmp_vector.push_back(1);
+          matrix_[i][j] = 1; continue;
         }
-        tmp_vector.push_back(0);
+        matrix_[i][j] = 0;
       }
-      matrix_.push_back(tmp_vector);
     }
   }
-  Matrix::Matrix(int order)
+  Matrix::Matrix(float n11, float n12, float n13, float n14, float n21, float n22, float n23, float n24, float n31, float n32, float n33, float n34, float n41, float n42, float n43, float n44)
   {
-    matrix_order_ = order;
-    std::vector<float> tmp_vector;
-    for (int i = 0; i < 4; i++) {
-      for (int j = 0; j < 4; j++) {
-        if (i == j) {
-          tmp_vector.push_back(1);
-        }
-        tmp_vector.push_back(0);
-      }
-      matrix_.push_back(tmp_vector);
-    }
+    matrix_[0][0] = n11; matrix_[0][1] = n12; matrix_[0][2] = n13; matrix_[0][3] = n14;
+    matrix_[1][0] = n21; matrix_[1][1] = n22; matrix_[1][2] = n23; matrix_[1][3] = n24;
+    matrix_[2][0] = n31; matrix_[2][1] = n32; matrix_[2][2] = n33; matrix_[2][3] = n34;
+    matrix_[3][0] = n41; matrix_[3][1] = n42; matrix_[3][2] = n43; matrix_[3][3] = n44;
   }
-  Matrix::Matrix(const Matrix& tmp_matrix) {
-    matrix_ = tmp_matrix.matrix_;
+  Matrix::Matrix(const Matrix& tmp_matrix)
+  {
+    memcpy(matrix_, tmp_matrix.matrix_, sizeof(float) * 16);
     matrix_order_ = tmp_matrix.matrix_order_;
   }
   /*Model矩阵*/
@@ -303,23 +331,23 @@ namespace XX_XZH {
   * 通常情况下，up是指向上的，即(0,1,0)
   * 1，我们需要根据两个点的坐标，创建摄像头的位置坐标，也是“指向”的起点坐标
   * 2，创建摄像机的结尾坐标，即“指向”的结尾坐标
-  * 3，做差，得到“指向”就是方向Z轴，单位化
-  * 4，自定义一个工具向量
-  * 5，工具向量和Z轴叉乘得到X轴，单位化
-  * 6，Z 叉乘 X 得到 Y，单位化
+  * 3，做差，得到“指向”就是摄像机看的方向，然后单位化
+  * 4，自定义一个永远向上的方向
+  * 5，指向 叉乘 向上 得到 X，单位化
+  * 6，指向就是-Z轴，Z就是就是指向取反
   * 7，摄像机看的方向是-Z轴
   * 8，将相机坐标系移动至原点，可知ViewTranslation矩阵
   * 9，将相机坐标系旋转到正确的方向，可知ViewRotation矩阵
   */
-  void Matrix::ViewMatrix(float pos_x, float pos_y, float pos_z, float target_x, float target_y, float target_z, float up_x, float up_y, float up_z){
-    Identity();
+  void Matrix::ViewMatrix(float pos_x, float pos_y, float pos_z, float target_x, float target_y, float target_z, float up_x, float up_y, float up_z) {
     Vector3 camera_start_position(pos_x, pos_y, pos_z);
     Vector3 camera_end_position(target_x, target_y, target_z);
-    Vector3 camera_z = camera_end_position - camera_start_position;
-    camera_z.Normalize();
-    Vector3 tmp_direction = Vector3(up_x, up_y, up_z);
-    Vector3 camera_x = Cross(tmp_direction, camera_z);
+    Vector3 camera_look_at = camera_end_position - camera_start_position;
+    camera_look_at.Normalize();
+    Vector3 tmp_up = Vector3(up_x, up_y, up_z, 0);
+    Vector3 camera_x = Cross(camera_look_at,tmp_up);
     camera_x.Normalize();
+    Vector3 camera_z = -camera_look_at;
     Vector3 camera_y = Cross(camera_z, camera_x);
     camera_y.Normalize();
     Matrix tmp_camera_translation = Matrix();
@@ -327,10 +355,10 @@ namespace XX_XZH {
     tmp_camera_translation.matrix_[1][3] = -pos_y;
     tmp_camera_translation.matrix_[2][3] = -pos_z;
     Matrix tmp_camera_rotation = Matrix();
-    tmp_camera_rotation.matrix_[0][0] = camera_x.GetX();tmp_camera_rotation.matrix_[0][1] = camera_x.GetY();tmp_camera_rotation.matrix_[0][2] = camera_x.GetZ();
-    tmp_camera_rotation.matrix_[1][0] = camera_y.GetX();tmp_camera_rotation.matrix_[1][1] = camera_y.GetY();tmp_camera_rotation.matrix_[1][2] = camera_y.GetZ();
-    tmp_camera_rotation.matrix_[2][0] = camera_z.GetX();tmp_camera_rotation.matrix_[2][1] = camera_z.GetY();tmp_camera_rotation.matrix_[2][2] = camera_z.GetZ();
-    this->matrix_ = (tmp_camera_rotation * tmp_camera_translation).matrix_;
+    tmp_camera_rotation.matrix_[0][0] = camera_x.GetX(); tmp_camera_rotation.matrix_[0][1] = camera_x.GetY(); tmp_camera_rotation.matrix_[0][2] = camera_x.GetZ();
+    tmp_camera_rotation.matrix_[1][0] = camera_y.GetX(); tmp_camera_rotation.matrix_[1][1] = camera_y.GetY(); tmp_camera_rotation.matrix_[1][2] = camera_y.GetZ();
+    tmp_camera_rotation.matrix_[2][0] = camera_z.GetX(); tmp_camera_rotation.matrix_[2][1] = camera_z.GetY(); tmp_camera_rotation.matrix_[2][2] = camera_z.GetZ();
+    memcpy(matrix_, (tmp_camera_rotation * tmp_camera_translation).matrix_, sizeof(float) * 16);
   }
   /*Projection矩阵
   * halve = (fov/2)*m_pi/180;
@@ -378,9 +406,9 @@ namespace XX_XZH {
     for (int i = 0; i < matrix_order_; i++) {
       for (int j = 0; j < matrix_order_; j++) {
         if (i == j) {
-          matrix_[i][j] = 1;
+          matrix_[i][j] = 1.0f;
         }
-        matrix_[i][j] = 0;
+        matrix_[i][j] = 0.0f;
       }
     }
   }
@@ -389,7 +417,7 @@ namespace XX_XZH {
       for (int j = 0; j < matrix_order_; j++) {
         std::cout << matrix_[i][j] << " ";
       }
-      std::cout << std::endl; 
+      std::cout << std::endl;
     }
   }
   void Matrix::ModelScale(float x, float y, float z)
@@ -427,18 +455,33 @@ namespace XX_XZH {
   }
   Matrix operator*(const Matrix& m1, const Matrix& m2)
   {
-    Matrix tmp_matrix;
+    Matrix tmp_matrix = Matrix();
     int tmp_num;
     assert(m1.GetMatrixOrder() == m2.GetMatrixOrder());
     tmp_num = m1.GetMatrixOrder();
     for (int i = 0; i < tmp_num; i++) {
       for (int j = 0; j < tmp_num; j++) {
+        tmp_matrix.matrix_[i][j] = 0;
         for (int k = 0; k < tmp_num; k++) {
-          tmp_matrix.matrix_[i][j] += m1.matrix_[i][k] * m2.matrix_[k][j];
+          tmp_matrix.matrix_[i][j] += (m1.matrix_[i][k] * m2.matrix_[k][j]);
         }
       }
     }
     return tmp_matrix;
+  }
+  Vector3& operator*(const Matrix& m1, Vector3& v3) {
+    Vector3 tmp_v3 = Vector3();
+    float tmp_num;
+    int matrix_order = m1.GetMatrixOrder();
+    for (int i = 0; i < matrix_order; i++) {
+      tmp_num = 0;
+      for (int k = 0; k < matrix_order; k++) {
+        tmp_num += m1.matrix_[i][k] * v3[k];
+      }
+      tmp_v3[i] = tmp_num;
+    }
+    v3 = tmp_v3;
+    return v3;
   }
   /*函数注释：需要判断符号是否相等，1算符号，2符号运算*/
   bool IsEqual(float a, float b, float c)

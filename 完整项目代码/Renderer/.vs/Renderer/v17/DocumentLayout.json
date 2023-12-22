@@ -11,6 +11,10 @@
       "RelativeMoniker": "D:0:0:{6B4A1C74-1D67-4297-A1CC-0A3AA77C86F4}|Renderer.vcxproj|solutionrelative:my_math\\my_math.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{6B4A1C74-1D67-4297-A1CC-0A3AA77C86F4}|Renderer.vcxproj|E:\\\u5149\u6805\u5316\u6E32\u67D3\u5668\u91CD\u6784\\Renderer\\my_models\\my_triangle.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{6B4A1C74-1D67-4297-A1CC-0A3AA77C86F4}|Renderer.vcxproj|solutionrelative:my_models\\my_triangle.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{6B4A1C74-1D67-4297-A1CC-0A3AA77C86F4}|Renderer.vcxproj|E:\\\u5149\u6805\u5316\u6E32\u67D3\u5668\u91CD\u6784\\Renderer\\my_math\\my_math.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{6B4A1C74-1D67-4297-A1CC-0A3AA77C86F4}|Renderer.vcxproj|solutionrelative:my_math\\my_math.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
@@ -19,16 +23,12 @@
       "RelativeMoniker": "D:0:0:{6B4A1C74-1D67-4297-A1CC-0A3AA77C86F4}|Renderer.vcxproj|solutionrelative:my_models\\my_triangle.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6B4A1C74-1D67-4297-A1CC-0A3AA77C86F4}|Renderer.vcxproj|E:\\\u5149\u6805\u5316\u6E32\u67D3\u5668\u91CD\u6784\\Renderer\\my_tools\\my_tools.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{6B4A1C74-1D67-4297-A1CC-0A3AA77C86F4}|Renderer.vcxproj|solutionrelative:my_tools\\my_tools.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{6B4A1C74-1D67-4297-A1CC-0A3AA77C86F4}|Renderer.vcxproj|E:\\\u5149\u6805\u5316\u6E32\u67D3\u5668\u91CD\u6784\\Renderer\\my_tools\\my_tools.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{6B4A1C74-1D67-4297-A1CC-0A3AA77C86F4}|Renderer.vcxproj|solutionrelative:my_tools\\my_tools.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6B4A1C74-1D67-4297-A1CC-0A3AA77C86F4}|Renderer.vcxproj|E:\\\u5149\u6805\u5316\u6E32\u67D3\u5668\u91CD\u6784\\Renderer\\my_models\\my_triangle.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{6B4A1C74-1D67-4297-A1CC-0A3AA77C86F4}|Renderer.vcxproj|solutionrelative:my_models\\my_triangle.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{6B4A1C74-1D67-4297-A1CC-0A3AA77C86F4}|Renderer.vcxproj|E:\\\u5149\u6805\u5316\u6E32\u67D3\u5668\u91CD\u6784\\Renderer\\my_tools\\my_tools.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{6B4A1C74-1D67-4297-A1CC-0A3AA77C86F4}|Renderer.vcxproj|solutionrelative:my_tools\\my_tools.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
   "DocumentGroupContainers": [
@@ -37,8 +37,8 @@
       "VerticalTabListWidth": 256,
       "DocumentGroups": [
         {
-          "DockedWidth": 62,
-          "SelectedChildIndex": 3,
+          "DockedWidth": 143,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
@@ -48,26 +48,15 @@
               "RelativeDocumentMoniker": "my_tools\\my_tools.h",
               "ToolTip": "E:\\\u5149\u6805\u5316\u6E32\u67D3\u5668\u91CD\u6784\\Renderer\\my_tools\\my_tools.h",
               "RelativeToolTip": "my_tools\\my_tools.h",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAUAAAAAAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA8AAAATAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2023-12-17T11:58:29.834Z",
-              "IsPinned": true
+              "IsPinned": true,
+              "EditorCaption": ""
             },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "my_triangle.h",
-              "DocumentMoniker": "E:\\\u5149\u6805\u5316\u6E32\u67D3\u5668\u91CD\u6784\\Renderer\\my_models\\my_triangle.h",
-              "RelativeDocumentMoniker": "my_models\\my_triangle.h",
-              "ToolTip": "E:\\\u5149\u6805\u5316\u6E32\u67D3\u5668\u91CD\u6784\\Renderer\\my_models\\my_triangle.h",
-              "RelativeToolTip": "my_models\\my_triangle.h",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAUAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2023-12-18T08:25:00.356Z"
             },
             {
               "$type": "Document",
@@ -77,15 +66,28 @@
               "RelativeDocumentMoniker": "my_math\\my_math.h",
               "ToolTip": "E:\\\u5149\u6805\u5316\u6E32\u67D3\u5668\u91CD\u6784\\Renderer\\my_math\\my_math.h",
               "RelativeToolTip": "my_math\\my_math.h",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAAAAAAA",
+              "ViewState": "AQIAAAwAAAAAAAAAAAAAAIcAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2023-12-17T07:00:44.351Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "my_triangle.h",
+              "DocumentMoniker": "E:\\\u5149\u6805\u5316\u6E32\u67D3\u5668\u91CD\u6784\\Renderer\\my_models\\my_triangle.h",
+              "RelativeDocumentMoniker": "my_models\\my_triangle.h",
+              "ToolTip": "E:\\\u5149\u6805\u5316\u6E32\u67D3\u5668\u91CD\u6784\\Renderer\\my_models\\my_triangle.h",
+              "RelativeToolTip": "my_models\\my_triangle.h",
+              "ViewState": "AQIAAAIAAAAAAAAAAAAmwA8AAAAUAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2023-12-18T08:25:00.356Z",
               "EditorCaption": ""
             }
           ]
         },
         {
-          "DockedWidth": 192,
+          "DockedWidth": 111,
           "SelectedChildIndex": 0,
           "Children": [
             {
@@ -96,7 +98,7 @@
               "RelativeDocumentMoniker": "main.cpp",
               "ToolTip": "E:\\\u5149\u6805\u5316\u6E32\u67D3\u5668\u91CD\u6784\\Renderer\\main.cpp",
               "RelativeToolTip": "main.cpp",
-              "ViewState": "AQIAAIUAAAAAAAAAAAAAAI8AAAAjAAAA",
+              "ViewState": "AQIAALsAAAAAAAAAAAAMwMMAAAAYAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2023-12-17T06:58:33.703Z",
               "IsPinned": true,
@@ -104,40 +106,42 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "my_triangle.cpp",
               "DocumentMoniker": "E:\\\u5149\u6805\u5316\u6E32\u67D3\u5668\u91CD\u6784\\Renderer\\my_models\\my_triangle.cpp",
               "RelativeDocumentMoniker": "my_models\\my_triangle.cpp",
               "ToolTip": "E:\\\u5149\u6805\u5316\u6E32\u67D3\u5668\u91CD\u6784\\Renderer\\my_models\\my_triangle.cpp",
               "RelativeToolTip": "my_models\\my_triangle.cpp",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAQAAAAAAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA8AAAACAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2023-12-18T08:25:13.303Z"
+              "WhenOpened": "2023-12-18T08:25:13.303Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "my_math.cpp",
               "DocumentMoniker": "E:\\\u5149\u6805\u5316\u6E32\u67D3\u5668\u91CD\u6784\\Renderer\\my_math\\my_math.cpp",
               "RelativeDocumentMoniker": "my_math\\my_math.cpp",
               "ToolTip": "E:\\\u5149\u6805\u5316\u6E32\u67D3\u5668\u91CD\u6784\\Renderer\\my_math\\my_math.cpp",
               "RelativeToolTip": "my_math\\my_math.cpp",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAUAAAAAAAAA",
+              "ViewState": "AQIAAEwBAAAAAAAAAAAAAKMBAAAXAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2023-12-17T07:00:36.04Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 6,
               "Title": "my_tools.cpp",
               "DocumentMoniker": "E:\\\u5149\u6805\u5316\u6E32\u67D3\u5668\u91CD\u6784\\Renderer\\my_tools\\my_tools.cpp",
               "RelativeDocumentMoniker": "my_tools\\my_tools.cpp",
               "ToolTip": "E:\\\u5149\u6805\u5316\u6E32\u67D3\u5668\u91CD\u6784\\Renderer\\my_tools\\my_tools.cpp",
               "RelativeToolTip": "my_tools\\my_tools.cpp",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAUAAAALAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAAGAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2023-12-17T12:26:05.473Z"
+              "WhenOpened": "2023-12-17T12:26:05.473Z",
+              "EditorCaption": ""
             }
           ]
         }

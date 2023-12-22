@@ -4,14 +4,14 @@
 #include <stdlib.h>
 #include <string.h>
 #include <tchar.h>
-#include <string.h>
-#include<string>
+#include <iostream>
 #include"my_math/my_math.h"
 #include"my_tools/my_tools.h"
 #include"my_models/my_triangle.h"
 
 #define MAX_WIDTH 500
 #define MAX_HEIGHT 500
+#define CLOCKS_PER_SEC 1000
 using namespace XX_XZH;
 // Global variables
 
@@ -27,8 +27,13 @@ HINSTANCE hInst;
 // Forward declarations of functions included in this code module:
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 
-//函数前置声明
+//全局变量声明区域
 float fps;
+Matrix Model;
+Matrix View;
+Matrix Project;
+Matrix ViewPort;
+//全局函数前置声明
 int DrawPicture(HWND hWnd);
 int WINAPI WinMain(
   _In_ HINSTANCE hInstance,
@@ -105,14 +110,13 @@ int WINAPI WinMain(
     nCmdShow);
   UpdateWindow(hWnd);
 
-  // Main message loop:
+   // Main message loop:
   MSG msg;
   while (GetMessage(&msg, NULL, 0, 0))
   {
     TranslateMessage(&msg);
     DispatchMessage(&msg);
   }
-
   return (int)msg.wParam;
 }
 
@@ -126,7 +130,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
   PAINTSTRUCT ps;
   HDC hdc;
-  DWORD start, stop;
+  clock_t start, stop;
   //如果尝试无缓冲，请删除双斜杠
   //Vector2 v1(100, 100);
   //Vector2 v2(300, 300);
@@ -150,7 +154,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     stop = clock();
     //stop - start 得到这一帧的时间
     //1000 / (stop - start) 一秒除以时间得到这一帧的帧率
-    fps = (stop - start)*1000/CLOCKS_PER_SEC;
+    fps = CLOCKS_PER_SEC / (stop - start);
     wchar_t cha[10];
     _itow_s(fps, cha, 10, 10);
     TextOut(hdc,5, 5,cha, _tcslen(cha));
@@ -176,7 +180,7 @@ int DrawPicture(HWND hWnd) {
   //创建一个内存设备上下文
   HDC MemoryDC = CreateCompatibleDC(WindowsDC);
   //如果内存DC创建失败，打印消息
-  if (MemoryDC == 0) {
+  if (MemoryDC == NULL) {
     MessageBox(NULL,
       _T("Call to CreateCompatibleDC failed!"),
       _T("Windows Desktop Guided Tour"),
@@ -185,24 +189,37 @@ int DrawPicture(HWND hWnd) {
   //创建一个内存位图
   HBITMAP MemoryBitmap = CreateCompatibleBitmap(WindowsDC, MAX_WIDTH, MAX_HEIGHT);
   //将位图选入内存设备上下文,保存旧位图
-  SelectObject(MemoryDC, MemoryBitmap);
-
-  //画图区域--------------------------------------------------
-  //画图区域--------------------------------------------------
+  if (MemoryDC != NULL) {
+    SelectObject(MemoryDC, MemoryBitmap);
+  }
   //区域填充颜色
-  FillRect(MemoryDC, new RECT{ 0,0,MAX_WIDTH,MAX_HEIGHT }, (HBRUSH)(COLOR_WINDOW + 1));
+  if (MemoryDC != NULL) {
+    FillRect(MemoryDC, new RECT{ 0,0,MAX_WIDTH,MAX_HEIGHT }, (HBRUSH)(COLOR_WINDOW + 1));
+  }
   //在内存位图上绘制
-  Vector2 v1(100, 100);
-  Vector2 v2(300, 300);
-  Vector2 v3(300, 100);
-  Triangle tri(v1, v2, v3);
+  Vector3 v1(-1, 0, -9);
+  Vector3 v2(1, 0, -9);
+  Vector3 v3(0, 1, -9);
+
+ //模型变换的位置
+  Model.ModelTranslation(0, 0, 0);
+  View.ViewMatrix(0,0,0,0,0,-1,0,1,0);
+  Project.ProjectionMatrix(1,-1,-1,-10,1,-1);
+  ViewPort.ViewportMatrix(MAX_WIDTH,MAX_HEIGHT);
+
+  Vector3 tmp = ViewPort * Project * View * Model * v1;
+  Vector3 tmp_1 = ViewPort *Project * View * Model * v2;
+  Vector3 tmp_2 = ViewPort *Project * View * Model * v3;
+
+  tmp.Identity();
+  tmp_1.Identity();
+  tmp_2.Identity();
+  Triangle tri(tmp, tmp_1, tmp_2);
   //测试，画一个线框
-  DrawLineUseDDAv1(MemoryDC, v2, v1);
-  DrawLineUseDDAv1(MemoryDC, v1, v3);
-  DrawLineUseDDAv1(MemoryDC, v2, v3);
+  //DrawLineUseDDAv1(MemoryDC, v2, v1);
+  //DrawLineUseDDAv1(MemoryDC, v1, v3);
+  //DrawLineUseDDAv1(MemoryDC, v2, v3);
   DrawTriangleUseAABB(MemoryDC, tri);
-  //画图区域--------------------------------------------------
-  //画图区域--------------------------------------------------
   //将内存DC到主DC1上
   BitBlt(WindowsDC, 0, 0, MAX_WIDTH, MAX_HEIGHT, MemoryDC, 0, 0, SRCCOPY);
   //删除内存位图

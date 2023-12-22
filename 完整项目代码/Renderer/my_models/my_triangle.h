@@ -8,7 +8,9 @@
 */
 #ifndef _MY_TRIANGLE_H_
 #define _MY_TRIANGLE_H_
+#include<vector>
 #include"../my_math/my_math.h"
+
 namespace XX_XZH {
   enum IS_INSIDE {OUTSIDE=0,INSIDE,ONLINE};
   /*类注释：Triangle是三角形类
