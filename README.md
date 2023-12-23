@@ -126,5 +126,17 @@ int value = _wtoi( tempstr.c_str());
 
 10. [C++全局变量定义在哪里合适](https://blog.csdn.net/weixin_43360707/article/details/108796577)
 
+11. [obj格式解析](https://blog.csdn.net/zb1165048017/article/details/109103791)
+
+12. [.obj文件格式与.mtl文件格式](https://blog.csdn.net/u013467442/article/details/46792495)
+
+13. [Make命令教程](https://www.ruanyifeng.com/blog/2015/02/make.html)
+
+14. [Make删除文件](https://blog.csdn.net/qq_25100723/article/details/122901686)
+
+15. [win32静态链接库](https://stackoverflow.com/questions/8664792/undefined-reference-to-textouta20)
+
+16. 
+
     
 
