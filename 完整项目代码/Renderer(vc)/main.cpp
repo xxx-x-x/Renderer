@@ -157,10 +157,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     //stop - start 得到这一帧的时间
     //1000 / (stop - start) 一秒除以时间得到这一帧的帧率
     fps = CLOCKS_PER_SEC / (stop - start);
-    wchar_t cha[10];
-    _itow_s(fps, cha, 10, 10);
-    //下面这行代码g++编译器貌似不支持，需要vs编译器支持
-    //TextOut(hdc,5, 5,cha, _tcslen(cha));
+
+    TCHAR cha[16];
+    _itot(fps,cha,10);
+    TextOut(hdc,5, 5,cha, _tcslen(cha));
 
     ReleaseDC(hWnd, hdc);
     EndPaint(hWnd, &ps);
