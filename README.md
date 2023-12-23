@@ -136,7 +136,7 @@ int value = _wtoi( tempstr.c_str());
 
 15. [win32静态链接库](https://stackoverflow.com/questions/8664792/undefined-reference-to-textouta20)
 
-16. 
+16. [vscode控制台乱码](https://juejin.cn/post/7032129567473188872)
 
     
 
