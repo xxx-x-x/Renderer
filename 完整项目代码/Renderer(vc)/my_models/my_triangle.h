@@ -33,7 +33,6 @@ namespace XX_XZH {
   /*全局函数注释：判断点，是否在三角形内
   * 定义思路：
   * 这个点与三角形三个顶点构成向量与三条边向量叉乘
-  * 结果右移31位只保留符号，异或三个结果，如果为0，则在三角形内
   */
   const int DotInside(Triangle& tmp_tri,const float dot_x,const float dot_y);
 }

@@ -6,8 +6,6 @@
  * @code UTF-8
  * @date 2023-12-23
  */
-#ifndef _WAVEFRONT_OBJ_PARSER_CPP_
-#define _WAVEFRONT_OBJ_PARSER_CPP_
 #include"wavefront_obj_parser.h"
 #include <iostream>
 #include <fstream>
@@ -16,20 +14,16 @@
 #include "../my_models/face.h"
 
 using namespace std;
-using namespace XX_XZH;
-
-// v 中存放所有点坐标
-vector<Vector3> v;
-// f 面，存放点坐标顺序
-vector<Face> f;
-int wavefront_obj_parser()
+namespace XX_XZH{
+WaveFrontOBJ WavefrontOBJParser(char* url)
 {
+  WaveFrontOBJ tmp_obj;
   ifstream obj_file;
-  obj_file.open("../obj_model/triangle.obj");
+  obj_file.open(url);
   if (!obj_file.is_open())
   {
-    cout << "文件打开失败" << endl;
-    return 0;
+    cerr << "文件打开失败" << endl;
+    exit(0);
   }
   cout << "文件打开成功" << endl;
   char buff[100] = {};
@@ -42,7 +36,7 @@ int wavefront_obj_parser()
       tmp.SetX(strtod(buff + 2, &p));
       tmp.SetY(strtod(p, &p));
       tmp.SetZ(strtod(p, &p));
-      v.push_back(tmp);
+      tmp_obj.v.push_back(tmp);
     }
     if (buff[0] == 'f' && buff[1] == ' ')
     {
@@ -123,17 +117,17 @@ int wavefront_obj_parser()
         }
         p = strtok(NULL, " ");
       }
-      f.push_back(tmp_face);
+      tmp_obj.f.push_back(tmp_face);
     }
   }
-  for (int i = 0; i < v.size(); i++)
+  for (int i = 0; i < tmp_obj.v.size(); i++)
   {
-    v[i].OutPutVector3();
+    tmp_obj.v[i].OutPutVector3();
   }
-  for (int i = 0; i < f.size(); i++)
+  for (int i = 0; i < tmp_obj.f.size(); i++)
   {
-    f[i].OutputFace();
+    tmp_obj.f[i].OutputFace();
   }
-  return 0;
+  return tmp_obj;
 }
-#endif
+}//namespace

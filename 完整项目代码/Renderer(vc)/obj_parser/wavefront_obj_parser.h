@@ -9,5 +9,9 @@
 #ifndef _WAVEFRONT_OBJ_PARSER_H_
 #define _WAVEFRONT_OBJ_PARSER_H_
 
-int wavefront_obj_parser();
+#include"../my_models/wavefront_obj.h"
+#include"../my_math/my_math.h"
+namespace XX_XZH{
+  WaveFrontOBJ WavefrontOBJParser(char* url);
+}
 #endif

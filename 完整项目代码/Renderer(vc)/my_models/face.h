@@ -7,10 +7,9 @@
 */
 #ifndef _FACE_H_
 #define _FACE_H_
-#include<iostream>
 #include<vector>
+#include<iostream>
 #include"../my_math/my_math.h"
-#include"../obj_parser/wavefront_obj_parser.h"
 namespace XX_XZH{
   /**
    * 类注释：Face是面片类
@@ -21,7 +20,6 @@ namespace XX_XZH{
       Face() = default;
       virtual ~Face() = default;
       void OutputFace()const;
-      friend const int DotInside(Face& tmp_face,const float dot_x,const float dot_y);
       //顶点索引
       std::vector<int> vertex_index;
       //顶点纹理索引
@@ -29,6 +27,5 @@ namespace XX_XZH{
       //顶点法线索引
       std::vector<int> vertex_normal_index;
   };
-  const int DotInside(Face& tmp_face,const float dot_x,const float dot_y);
 }
 #endif // !_FACE_H_

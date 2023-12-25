@@ -76,7 +76,7 @@ namespace XX_XZH {
   }
   void Vector3::OutPutVector3()
   {
-    std::cout << "Vector3:" << this->GetX() << "," << this->GetY() << "," << this->GetZ() << "," << this->GetW() << std::endl;
+    std::cout << this->GetX() << "," << this->GetY() << "," << this->GetZ() << "," << this->GetW() << std::endl;
   }
   void Vector3::ExchangeXY()
   {
