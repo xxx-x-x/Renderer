@@ -67,12 +67,13 @@ namespace XX_XZH {
   float Vector3::Norm() {
     return (float)sqrt(x_ * x_ + y_ * y_ + z_ * z_);
   }
-  void Vector3::Identity()
+  Vector3& Vector3::Identity()
   {
     this->x_ = this->x_ / this->w_;
     this->y_ = this->y_ / this->w_;
     this->z_ = this->z_ / this->w_;
     this->w_ = this->w_ / this->w_;
+    return *this;
   }
   void Vector3::OutPutVector3()
   {
@@ -302,7 +303,7 @@ namespace XX_XZH {
     return !(left_v2.GetX() == right_v2.GetX() && left_v2.GetY() == right_v2.GetY());
   }
   Matrix::Matrix() {
-    std::cout << "Matrix构造函数调用" << std::endl;
+  //  std::cout << "Matrix构造函数调用" << std::endl;
     matrix_order_ = 4;
     for (int i = 0; i < 4; i++) {
       for (int j = 0; j < 4; j++) {

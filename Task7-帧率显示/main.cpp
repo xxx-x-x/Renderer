@@ -1,15 +1,21 @@
-// compile with: /D_UNICODE /DUNICODE /DWIN32 /D_WINDOWS /c
+ï»¿// compile with: /D_UNICODE /DUNICODE /DWIN32 /D_WINDOWS /c
 
 #include <windows.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <tchar.h>
+#include <iostream>
+#include <ctime>
 #include"my_math/my_math.h"
 #include"my_tools/my_tools.h"
-#include"my_models/my_triangle.h"
+#include"my_models/wavefront_obj.h"
+#include"my_models/face.h"
+#include"obj_parser/wavefront_obj_parser.h"
 
-#define MAX_WIDTH 500
-#define MAX_HEIGHT 500
+#define MAX_WIDTH 800
+#define MAX_HEIGHT 800
+#define CLOCKS_PER_SEC 1000
 using namespace XX_XZH;
 // Global variables
 
@@ -25,17 +31,37 @@ HINSTANCE hInst;
 // Forward declarations of functions included in this code module:
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 
-//º¯ÊıÇ°ÖÃÉùÃ÷
-int DrawPicture(HWND hWnd);
-int WINAPI WinMain(
-  _In_ HINSTANCE hInstance,
-  _In_opt_ HINSTANCE hPrevInstance,
-  _In_ LPSTR     lpCmdLine,
-  _In_ int       nCmdShow
-)
+//å…¨å±€å˜é‡å£°æ˜åŒºåŸŸ
+float fps;
+Matrix Model;
+Matrix View;
+Matrix Project;
+Matrix ViewPort;
+//åˆ›å»ºä¸€ä¸ªå…¨å±€æ¨¡å‹ç±»æ•°ç»„ï¼Œç”¨æ¥å­˜æ”¾æ‰€æœ‰æ•°ç»„
+std::vector<WaveFrontOBJ> arr_obj;
+//å…¨å±€å‡½æ•°å‰ç½®å£°æ˜
+int DrawPicture(HWND hWnd,WaveFrontOBJ obj);
+int WINAPI WinMain(_In_ HINSTANCE hInstance,_In_opt_ HINSTANCE hPrevInstance,_In_ LPSTR     lpCmdLine,_In_ int       nCmdShow)
 {
+  //åŠ è½½ä¸€ä¸ªæ¨¡å‹
+  WaveFrontOBJ tmp_obj;
+  char url[100] = "./obj_model/Sting-Sword-lowpoly.obj";
+  tmp_obj = WavefrontOBJParser(url);
+  arr_obj.push_back(tmp_obj);
+  std::cout << "æ¨¡å‹åŠ è½½å®Œæ¯•" <<std::endl;
+  //æ¨¡å‹åæ ‡ç³»å˜æ¢
+  Model.ModelTranslation(0, 0, 0);
+  View.ViewMatrix(0,0,0,0,0,-1,0,1,0);
+  Project.ProjectionMatrix(1,-1,-1,-10,1,-1);
+  ViewPort.ViewportMatrix(MAX_WIDTH,MAX_HEIGHT);
+  //ç¬¬ä¸€æ­¥ï¼ŒåŠ è½½æ‰€æœ‰æ¨¡å‹
+  for(int i=0;i<arr_obj.size();i++){
+    //ç¬¬äºŒæ­¥ï¼ŒåŠ è½½æ¨¡å‹ä¸Šï¼Œæ‰€æœ‰çš„ç‚¹
+    for(int j=0;j<arr_obj[i].v.size();j++){
+      arr_obj[i].v[j] = (ViewPort * Project * View * Model * arr_obj[0].v[j]).Identity();
+    }
+  }
   WNDCLASSEX wcex;
-
   wcex.cbSize = sizeof(WNDCLASSEX);
   wcex.style = CS_HREDRAW | CS_VREDRAW;
   wcex.lpfnWndProc = WndProc;
@@ -48,68 +74,27 @@ int WINAPI WinMain(
   wcex.lpszMenuName = NULL;
   wcex.lpszClassName = szWindowClass;
   wcex.hIconSm = LoadIcon(wcex.hInstance, IDI_APPLICATION);
-
   if (!RegisterClassEx(&wcex))
   {
-    MessageBox(NULL,
-      _T("Call to RegisterClassEx failed!"),
-      _T("Windows Desktop Guided Tour"),
-      NULL);
-
+    MessageBox(NULL,_T("Call to RegisterClassEx failed!"),_T("Windows Desktop Guided Tour"),NULL);
     return 1;
   }
-
-  // Store instance handle in our global variable
   hInst = hInstance;
-
-  // The parameters to CreateWindowEx explained:
-  // WS_EX_OVERLAPPEDWINDOW : An optional extended window style.
-  // szWindowClass: the name of the application
-  // szTitle: the text that appears in the title bar
-  // WS_OVERLAPPEDWINDOW: the type of window to create
-  // CW_USEDEFAULT, CW_USEDEFAULT: initial position (x, y)
-  // 500, 100: initial size (width, length)
-  // NULL: the parent of this window
-  // NULL: this application does not have a menu bar
-  // hInstance: the first parameter from WinMain
-  // NULL: not used in this application
-  HWND hWnd = CreateWindowEx(
-    WS_EX_OVERLAPPEDWINDOW,
-    szWindowClass,
-    szTitle,
-    WS_OVERLAPPEDWINDOW,
-    CW_USEDEFAULT, CW_USEDEFAULT,
-    MAX_WIDTH, MAX_HEIGHT,
-    NULL,
-    NULL,
-    hInstance,
-    NULL
-  );
-
+  HWND hWnd = CreateWindowEx(WS_EX_OVERLAPPEDWINDOW,szWindowClass,szTitle,WS_OVERLAPPEDWINDOW,CW_USEDEFAULT, CW_USEDEFAULT,MAX_WIDTH, MAX_HEIGHT,NULL,NULL,hInstance,NULL);
   if (!hWnd)
   {
-    MessageBox(NULL,
-      _T("Call to CreateWindow failed!"),
-      _T("Windows Desktop Guided Tour"),
-      NULL);
-
+    MessageBox(NULL,_T("Call to CreateWindow failed!"),_T("Windows Desktop Guided Tour"),NULL);
     return 1;
   }
-  // The parameters to ShowWindow explained:
-  // hWnd: the value returned from CreateWindow
-  // nCmdShow: the fourth parameter from WinMain
-  ShowWindow(hWnd,
-    nCmdShow);
+  ShowWindow(hWnd,nCmdShow);
   UpdateWindow(hWnd);
-
-  // Main message loop:
+   // Main message loop:
   MSG msg;
   while (GetMessage(&msg, NULL, 0, 0))
   {
     TranslateMessage(&msg);
     DispatchMessage(&msg);
   }
-
   return (int)msg.wParam;
 }
 
@@ -122,28 +107,26 @@ int WINAPI WinMain(
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
   PAINTSTRUCT ps;
-
   HDC hdc;
-
-  //Èç¹û³¢ÊÔÎŞ»º³å£¬ÇëÉ¾³ıË«Ğ±¸Ü
-  //Vector2 v1(100, 100);
-  //Vector2 v2(300, 300);
-  //Vector2 v3(300, 100);
-  //Triangle tri(v1, v2, v3);
-
+  clock_t start,stop;
   switch (message)
   {
   case WM_PAINT:
+    //å¼€å§‹ç»Ÿè®¡å¸§æ•°
+    start = clock();
     hdc = BeginPaint(hWnd, &ps);
+    //å¦‚æœå°è¯•æ— ç¼“å†²ï¼Œè¯·å°†DrawPictureå‡½æ•°æ³¨é‡Šæ‰
+    DrawPicture(hWnd,arr_obj[0]);
+    //ç»Ÿè®¡ç»“æŸå¸§æ•°
+    stop = clock();
+    //stop - start å¾—åˆ°è¿™ä¸€å¸§çš„æ—¶é—´
+    //1000 / (stop - start) ä¸€ç§’é™¤ä»¥æ—¶é—´å¾—åˆ°è¿™ä¸€å¸§çš„å¸§ç‡
+    fps = CLOCKS_PER_SEC / (stop - start);
 
-    //Èç¹û³¢ÊÔÎŞ»º³å£¬ÇëÉ¾³ıË«Ğ±¸Ü
-    //DrawLineUseDDAv1(hdc, v2, v1);
-    //DrawLineUseDDAv1(hdc, v1, v3);
-    //DrawLineUseDDAv1(hdc, v2, v3);
-    //DrawTriangleUseAABB(hdc, tri);
-    //Èç¹û³¢ÊÔÎŞ»º³å£¬Çë½«DrawPictureº¯Êı×¢ÊÍµô
-    DrawPicture(hWnd);
-    
+    TCHAR cha[16];
+    _itot(fps,cha,10);
+    TextOut(hdc,5, 5,cha, _tcslen(cha));
+
     ReleaseDC(hWnd, hdc);
     EndPaint(hWnd, &ps);
     break;
@@ -157,51 +140,48 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
   return 0;
 }
-
-int DrawPicture(HWND hWnd) {
-  /*¿ªÊ¼Ë«»º³åËã·¨ÊµÏÖ*/  
-  //µÃµ½ÆÁÄ»Éè±¸ÉÏÏÂÎÄ
+/**å‡½æ•°æ³¨é‡Šï¼šåŒç¼“å†²ç®—æ³•å®ç°çš„ç»˜å›¾
+ * å‡½æ•°è¾“å…¥ï¼šå˜æ¢åçš„ç‚¹åæ ‡å’Œé¢
+*/
+int DrawPicture(HWND hWnd,WaveFrontOBJ obj) {
+  /*å¼€å§‹åŒç¼“å†²ç®—æ³•å®ç°*/  
+  //å¾—åˆ°å±å¹•è®¾å¤‡ä¸Šä¸‹æ–‡
   HDC WindowsDC = GetDC(hWnd);
-  //´´½¨Ò»¸öÄÚ´æÉè±¸ÉÏÏÂÎÄ
+  //åˆ›å»ºä¸€ä¸ªå†…å­˜è®¾å¤‡ä¸Šä¸‹æ–‡
   HDC MemoryDC = CreateCompatibleDC(WindowsDC);
-  //Èç¹ûÄÚ´æDC´´½¨Ê§°Ü£¬´òÓ¡ÏûÏ¢
-  if (MemoryDC == 0) {
-    MessageBox(NULL,
-      _T("Call to CreateCompatibleDC failed!"),
-      _T("Windows Desktop Guided Tour"),
-      NULL);
+  //å¦‚æœå†…å­˜DCåˆ›å»ºå¤±è´¥ï¼Œæ‰“å°æ¶ˆæ¯
+  if (MemoryDC == NULL) {
+    MessageBox(NULL,_T("Call to CreateCompatibleDC failed!"),_T("Windows Desktop Guided Tour"),NULL);
   }
-  //´´½¨Ò»¸öÄÚ´æÎ»Í¼
+  //åˆ›å»ºä¸€ä¸ªå†…å­˜ä½å›¾
   HBITMAP MemoryBitmap = CreateCompatibleBitmap(WindowsDC, MAX_WIDTH, MAX_HEIGHT);
-  //½«Î»Í¼Ñ¡ÈëÄÚ´æÉè±¸ÉÏÏÂÎÄ,±£´æ¾ÉÎ»Í¼
-  SelectObject(MemoryDC, MemoryBitmap);
+  //å°†ä½å›¾é€‰å…¥å†…å­˜è®¾å¤‡ä¸Šä¸‹æ–‡,ä¿å­˜æ—§ä½å›¾
+  if (MemoryDC != NULL) {
+    SelectObject(MemoryDC, MemoryBitmap);
+  }
+  //åŒºåŸŸå¡«å……é¢œè‰²
+  if (MemoryDC != NULL) {
+    FillRect(MemoryDC, new RECT{ 0,0,MAX_WIDTH,MAX_HEIGHT }, (HBRUSH)(COLOR_WINDOW + 1));
+  }
 
-  //»­Í¼ÇøÓò--------------------------------------------------
-  //»­Í¼ÇøÓò--------------------------------------------------
-  //ÇøÓòÌî³äÑÕÉ«
-  FillRect(MemoryDC, new RECT{ 0,0,MAX_WIDTH,MAX_HEIGHT }, (HBRUSH)(COLOR_WINDOW + 1));
-  //Ö¡Êı
-  TCHAR greeting[] = _T("FPS:353");
-  TextOut(MemoryDC,5, 5,greeting, _tcslen(greeting));
-  //ÔÚÄÚ´æÎ»Í¼ÉÏ»æÖÆ
-  Vector2 v1(100, 100);
-  Vector2 v2(300, 300);
-  Vector2 v3(300, 100);
-  Triangle tri(v1, v2, v3);
-  //²âÊÔ£¬»­Ò»¸öÏß¿ò
-  DrawLineUseDDAv1(MemoryDC, v2, v1);
-  DrawLineUseDDAv1(MemoryDC, v1, v3);
-  DrawLineUseDDAv1(MemoryDC, v2, v3);
-  DrawTriangleUseAABB(MemoryDC, tri);
-  //»­Í¼ÇøÓò--------------------------------------------------
-  //»­Í¼ÇøÓò--------------------------------------------------
-  //½«ÄÚ´æDCµ½Ö÷DC1ÉÏ
+  //åŠ è½½æ¨¡å‹çš„é¢
+  for(int i=0;i<obj.f.size();i++){
+    //arr_obj[0].f[i] ä¸­å­˜æ”¾äº†é¡¶ç‚¹çš„é¡ºåºï¼ŒæŒ‰ç…§é¡ºåºç»˜å›¾å³å¯
+    //ï¼ï¼æ³¨æ„ï¼Œç´¢å¼•å€¼æ˜¯æ¯”æ•°ç»„ä¸‹æ ‡å¤§ä¸€çš„
+    std::vector<int> tmp_index = arr_obj[0].f[i].vertex_index;
+    DrawLineUseDDAv1(MemoryDC,arr_obj[0].v[tmp_index[0]-1],arr_obj[0].v[tmp_index[1]-1]);
+    DrawLineUseDDAv1(MemoryDC,arr_obj[0].v[tmp_index[1]-1],arr_obj[0].v[tmp_index[2]-1]);
+    DrawLineUseDDAv1(MemoryDC,arr_obj[0].v[tmp_index[2]-1],arr_obj[0].v[tmp_index[3]-1]);
+    DrawLineUseDDAv1(MemoryDC,arr_obj[0].v[tmp_index[3]-1],arr_obj[0].v[tmp_index[0]-1]);
+  }
+  //DrawTriangleUseAABB(MemoryDC, tri);
+  //å°†å†…å­˜DCåˆ°ä¸»DC1ä¸Š
   BitBlt(WindowsDC, 0, 0, MAX_WIDTH, MAX_HEIGHT, MemoryDC, 0, 0, SRCCOPY);
-  //É¾³ıÄÚ´æÎ»Í¼
+  //åˆ é™¤å†…å­˜ä½å›¾
   DeleteObject(MemoryBitmap);
-  //É¾³ıÄÚ´æÉè±¸ÉÏÏÂÎÄ
+  //åˆ é™¤å†…å­˜è®¾å¤‡ä¸Šä¸‹æ–‡
   DeleteObject(MemoryDC);
-  //ÊÍ·ÅÆÁÄ»Éè±¸ÉÏÏÂÎÄ
+  //é‡Šæ”¾å±å¹•è®¾å¤‡ä¸Šä¸‹æ–‡
   ReleaseDC(hWnd, WindowsDC);
   return 0;
 }

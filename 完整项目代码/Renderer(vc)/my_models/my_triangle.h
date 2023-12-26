@@ -1,4 +1,5 @@
 ﻿/*
+* (legacy) 注意，该文件已经弃用
 * 文件名：my_triangle.h
 * 作者信息：谢泽浩
 * 重构时间：2023-12-18
@@ -12,7 +13,6 @@
 #include"../my_math/my_math.h"
 
 namespace XX_XZH {
-  enum IS_INSIDE {OUTSIDE=0,INSIDE,ONLINE};
   /*类注释：Triangle是三角形类
   * 该类由三个点构成，所以应该有三个点坐标
   * 该类应该提供一个判断像素点是否在三角形内的函数

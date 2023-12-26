@@ -15,7 +15,7 @@ namespace XX_XZH
   }
   void DrawDot(HDC &hdc, int x, int y)
   {
-    SetPixel(hdc, x, y, RGB(255, 0, 0));
+    SetPixel(hdc, x, y, RGB(0, 0, 0));
   }
   /*函数注释：使用DDA算法进行画线
    * 画线原理：
@@ -193,21 +193,19 @@ namespace XX_XZH
     }
     p0 = p1;
   }
-  void DrawTriangleUseAABB(HDC &hdc, Triangle &triangle)
-  {
+  void DrawFaceUseAABB(HDC& hdc,Face tmp_f1,std::vector<Vector3> tmp_v){
     // 调用数学库中的计算最大最小值函数
-    float max_x = MAX_NUM(triangle.GetTriangleDots()[0].GetX(), triangle.GetTriangleDots()[1].GetX(), triangle.GetTriangleDots()[2].GetX());
-    float max_y = MAX_NUM(triangle.GetTriangleDots()[0].GetY(), triangle.GetTriangleDots()[1].GetY(), triangle.GetTriangleDots()[2].GetY());
-    float min_x = MIN_NUM(triangle.GetTriangleDots()[0].GetX(), triangle.GetTriangleDots()[1].GetX(), triangle.GetTriangleDots()[2].GetX());
-    float min_y = MIN_NUM(triangle.GetTriangleDots()[0].GetY(), triangle.GetTriangleDots()[1].GetY(), triangle.GetTriangleDots()[2].GetY());
+    float max_x = MAX_NUM(tmp_v[tmp_f1.vertex_index[0]].GetX(), tmp_v[tmp_f1.vertex_index[1]].GetX(), tmp_v[tmp_f1.vertex_index[2]].GetX());
+    float max_y = MAX_NUM(tmp_v[tmp_f1.vertex_index[0]].GetY(), tmp_v[tmp_f1.vertex_index[1]].GetY(), tmp_v[tmp_f1.vertex_index[2]].GetY());
+    float min_x = MIN_NUM(tmp_v[tmp_f1.vertex_index[0]].GetX(), tmp_v[tmp_f1.vertex_index[1]].GetX(), tmp_v[tmp_f1.vertex_index[2]].GetX());
+    float min_y = MIN_NUM(tmp_v[tmp_f1.vertex_index[0]].GetY(), tmp_v[tmp_f1.vertex_index[1]].GetY(), tmp_v[tmp_f1.vertex_index[2]].GetY());
     // 光栅化，左下开始，右上结束
     for (int i = (int)min_y; i < (int)max_y; i++)
     {
       for (int j = (int)min_x; j < (int)max_x; j++)
       {
-        if (DotInside(triangle, j, i))
-        {
-          DrawDot(hdc, j, i);
+        if(DotInside(tmp_f1,tmp_v,j,i)){
+          DrawDot(hdc,j,i);
         }
       }
     }

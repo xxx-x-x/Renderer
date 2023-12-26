@@ -1,4 +1,5 @@
 ﻿/*
+* (legacy) 注意，该文件已经弃用
 * 文件名：my_triangle.cpp
 * 作者信息：谢泽浩
 * 重构时间：2023-12-18
@@ -45,6 +46,6 @@ namespace XX_XZH {
       Vector2 dot_p_sub_vertex = dot_p - tmp_tri.triangle_dots[i];
       tmp_result.push_back(Cross(vertex_sub_vertex, dot_p_sub_vertex));
     }
-    return IS_EQUAL(tmp_result[0], tmp_result[1], tmp_result[2]) == true ? INSIDE:OUTSIDE;
+    return IS_EQUAL(tmp_result[0], tmp_result[1], tmp_result[2]) == true ? 1:0;
   }
 }

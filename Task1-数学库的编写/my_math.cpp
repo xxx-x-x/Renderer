@@ -1,8 +1,9 @@
-/*
-* ÎÄ¼şÃû£ºmy_math.cpp
-* ×÷ÕßĞÅÏ¢£ºĞ»ÔóºÆ
-* ÖØ¹¹Ê±¼ä£º2023-12-16
-* ÎÄ¼şÄÚÈİ£º¼ÆËã»úÍ¼ĞÎÑ§Ê¹ÓÃµÄÊıÑ§¿â
+ï»¿/*
+* æ–‡ä»¶åï¼šmy_math.cpp
+* ä½œè€…ä¿¡æ¯ï¼šè°¢æ³½æµ©
+* é‡æ„æ—¶é—´ï¼š2023-12-16
+* æ–‡ä»¶å†…å®¹ï¼šè®¡ç®—æœºå›¾å½¢å­¦ä½¿ç”¨çš„æ•°å­¦åº“
+* ç¼–ç æ ¼å¼ï¼šUTF-8
 * Copyright 2023 - 2099 xx-xzh.All Rights Reserved.
 */
 #define _USE_MATH_DEFINES
@@ -15,6 +16,13 @@ namespace XX_XZH {
     w_ = 1;
   }
   Vector3::Vector3(float x, float y, float z) :x_(x), y_(y), z_(z), w_(1) {}
+  Vector3::Vector3(float x, float y, float z, float w)
+  {
+    x_ = x;
+    y_ = y;
+    z_ = z;
+    w_ = w;
+  }
   Vector3::Vector3(const Vector3& tmp_v3) {
     x_ = tmp_v3.x_;
     y_ = tmp_v3.y_;
@@ -59,8 +67,17 @@ namespace XX_XZH {
   float Vector3::Norm() {
     return (float)sqrt(x_ * x_ + y_ * y_ + z_ * z_);
   }
-  void Vector3::OutPutVector3() {
-    std::cout << "Vector3" << this->GetX() << "," << this->GetY() << "," << this->GetZ() << std::endl;
+  Vector3& Vector3::Identity()
+  {
+    this->x_ = this->x_ / this->w_;
+    this->y_ = this->y_ / this->w_;
+    this->z_ = this->z_ / this->w_;
+    this->w_ = this->w_ / this->w_;
+    return *this;
+  }
+  void Vector3::OutPutVector3()
+  {
+    std::cout << this->GetX() << "," << this->GetY() << "," << this->GetZ() << "," << this->GetW() << std::endl;
   }
   void Vector3::ExchangeXY()
   {
@@ -78,6 +95,11 @@ namespace XX_XZH {
   Vector3::operator Vector2()
   {
     return Vector2(x_, y_);
+  }
+  Vector3 Vector3::operator-()
+  {
+    return Vector3(-x_, -y_, -z_,w_);
+    // TODO: åœ¨æ­¤å¤„æ’å…¥ return è¯­å¥
   }
   float Dot(const Vector3& left_v3, const Vector3& right_v3) {
     float tmp_result;
@@ -99,6 +121,21 @@ namespace XX_XZH {
     tmp_vector3.SetZ(from.GetZ() + t * (to.GetZ() - from.GetZ()));
     tmp_vector3.SetW(1);
     return tmp_vector3;
+  }
+  float& Vector3::operator[](int index) {
+    if (index == 0) {
+      return x_;
+    }
+    else if (index == 1) {
+      return y_;
+    }
+    else if (index == 2) {
+      return z_;
+    }
+    else if (index == 3) {
+      return w_;
+    }
+    return x_;
   }
   Vector3 operator+(const Vector3& left_v3, const Vector3& right_v3) {
     Vector3 tmp_vector3;
@@ -156,13 +193,13 @@ namespace XX_XZH {
     y_ = 0;
     w_ = 1;
   }
-  Vector2::Vector2(float x, float y):x_(x),y_(y),w_(1){}
+  Vector2::Vector2(float x, float y) :x_(x), y_(y), w_(1) {}
   Vector2::Vector2(const Vector2& tmp_v2) {
     x_ = tmp_v2.x_;
     y_ = tmp_v2.y_;
     w_ = tmp_v2.w_;
   }
-  Vector2::~Vector2(){
+  Vector2::~Vector2() {
   }
   float Vector2::GetX()const {
     return x_;
@@ -266,59 +303,52 @@ namespace XX_XZH {
     return !(left_v2.GetX() == right_v2.GetX() && left_v2.GetY() == right_v2.GetY());
   }
   Matrix::Matrix() {
+  //  std::cout << "Matrixæ„é€ å‡½æ•°è°ƒç”¨" << std::endl;
     matrix_order_ = 4;
-    std::vector<float> tmp_vector;
     for (int i = 0; i < 4; i++) {
       for (int j = 0; j < 4; j++) {
         if (i == j) {
-          tmp_vector.push_back(1);
+          matrix_[i][j] = 1; continue;
         }
-        tmp_vector.push_back(0);
+        matrix_[i][j] = 0;
       }
-      matrix_.push_back(tmp_vector);
     }
   }
-  Matrix::Matrix(int order)
+  Matrix::Matrix(float n11, float n12, float n13, float n14, float n21, float n22, float n23, float n24, float n31, float n32, float n33, float n34, float n41, float n42, float n43, float n44)
   {
-    matrix_order_ = order;
-    std::vector<float> tmp_vector;
-    for (int i = 0; i < 4; i++) {
-      for (int j = 0; j < 4; j++) {
-        if (i == j) {
-          tmp_vector.push_back(1);
-        }
-        tmp_vector.push_back(0);
-      }
-      matrix_.push_back(tmp_vector);
-    }
+    matrix_[0][0] = n11; matrix_[0][1] = n12; matrix_[0][2] = n13; matrix_[0][3] = n14;
+    matrix_[1][0] = n21; matrix_[1][1] = n22; matrix_[1][2] = n23; matrix_[1][3] = n24;
+    matrix_[2][0] = n31; matrix_[2][1] = n32; matrix_[2][2] = n33; matrix_[2][3] = n34;
+    matrix_[3][0] = n41; matrix_[3][1] = n42; matrix_[3][2] = n43; matrix_[3][3] = n44;
   }
-  Matrix::Matrix(const Matrix& tmp_matrix) {
-    matrix_ = tmp_matrix.matrix_;
+  Matrix::Matrix(const Matrix& tmp_matrix)
+  {
+    memcpy(matrix_, tmp_matrix.matrix_, sizeof(float) * 16);
     matrix_order_ = tmp_matrix.matrix_order_;
   }
-  /*Model¾ØÕó*/
+  /*ModelçŸ©é˜µ*/
 
-  /*View¾ØÕó
-  * Í¨³£Çé¿öÏÂ£¬upÊÇÖ¸ÏòÉÏµÄ£¬¼´(0,1,0)
-  * 1£¬ÎÒÃÇĞèÒª¸ù¾İÁ½¸öµãµÄ×ø±ê£¬´´½¨ÉãÏñÍ·µÄÎ»ÖÃ×ø±ê£¬Ò²ÊÇ¡°Ö¸Ïò¡±µÄÆğµã×ø±ê
-  * 2£¬´´½¨ÉãÏñ»úµÄ½áÎ²×ø±ê£¬¼´¡°Ö¸Ïò¡±µÄ½áÎ²×ø±ê
-  * 3£¬×ö²î£¬µÃµ½¡°Ö¸Ïò¡±¾ÍÊÇ·½ÏòZÖá£¬µ¥Î»»¯
-  * 4£¬×Ô¶¨ÒåÒ»¸ö¹¤¾ßÏòÁ¿
-  * 5£¬¹¤¾ßÏòÁ¿ºÍZÖá²æ³ËµÃµ½XÖá£¬µ¥Î»»¯
-  * 6£¬Z ²æ³Ë X µÃµ½ Y£¬µ¥Î»»¯
-  * 7£¬ÉãÏñ»ú¿´µÄ·½ÏòÊÇ-ZÖá
-  * 8£¬½«Ïà»ú×ø±êÏµÒÆ¶¯ÖÁÔ­µã£¬¿ÉÖªViewTranslation¾ØÕó
-  * 9£¬½«Ïà»ú×ø±êÏµĞı×ªµ½ÕıÈ·µÄ·½Ïò£¬¿ÉÖªViewRotation¾ØÕó
+  /*ViewçŸ©é˜µ
+  * é€šå¸¸æƒ…å†µä¸‹ï¼Œupæ˜¯æŒ‡å‘ä¸Šçš„ï¼Œå³(0,1,0)
+  * 1ï¼Œæˆ‘ä»¬éœ€è¦æ ¹æ®ä¸¤ä¸ªç‚¹çš„åæ ‡ï¼Œåˆ›å»ºæ‘„åƒå¤´çš„ä½ç½®åæ ‡ï¼Œä¹Ÿæ˜¯â€œæŒ‡å‘â€çš„èµ·ç‚¹åæ ‡
+  * 2ï¼Œåˆ›å»ºæ‘„åƒæœºçš„ç»“å°¾åæ ‡ï¼Œå³â€œæŒ‡å‘â€çš„ç»“å°¾åæ ‡
+  * 3ï¼Œåšå·®ï¼Œå¾—åˆ°â€œæŒ‡å‘â€å°±æ˜¯æ‘„åƒæœºçœ‹çš„æ–¹å‘ï¼Œç„¶åå•ä½åŒ–
+  * 4ï¼Œè‡ªå®šä¹‰ä¸€ä¸ªæ°¸è¿œå‘ä¸Šçš„æ–¹å‘
+  * 5ï¼ŒæŒ‡å‘ å‰ä¹˜ å‘ä¸Š å¾—åˆ° Xï¼Œå•ä½åŒ–
+  * 6ï¼ŒæŒ‡å‘å°±æ˜¯-Zè½´ï¼ŒZå°±æ˜¯å°±æ˜¯æŒ‡å‘å–å
+  * 7ï¼Œæ‘„åƒæœºçœ‹çš„æ–¹å‘æ˜¯-Zè½´
+  * 8ï¼Œå°†ç›¸æœºåæ ‡ç³»ç§»åŠ¨è‡³åŸç‚¹ï¼Œå¯çŸ¥ViewTranslationçŸ©é˜µ
+  * 9ï¼Œå°†ç›¸æœºåæ ‡ç³»æ—‹è½¬åˆ°æ­£ç¡®çš„æ–¹å‘ï¼Œå¯çŸ¥ViewRotationçŸ©é˜µ
   */
-  void Matrix::ViewMatrix(float pos_x, float pos_y, float pos_z, float target_x, float target_y, float target_z, float up_x, float up_y, float up_z){
-    Identity();
+  void Matrix::ViewMatrix(float pos_x, float pos_y, float pos_z, float target_x, float target_y, float target_z, float up_x, float up_y, float up_z) {
     Vector3 camera_start_position(pos_x, pos_y, pos_z);
     Vector3 camera_end_position(target_x, target_y, target_z);
-    Vector3 camera_z = camera_end_position - camera_start_position;
-    camera_z.Normalize();
-    Vector3 tmp_direction = Vector3(up_x, up_y, up_z);
-    Vector3 camera_x = Cross(tmp_direction, camera_z);
+    Vector3 camera_look_at = camera_end_position - camera_start_position;
+    camera_look_at.Normalize();
+    Vector3 tmp_up = Vector3(up_x, up_y, up_z, 0);
+    Vector3 camera_x = Cross(camera_look_at,tmp_up);
     camera_x.Normalize();
+    Vector3 camera_z = -camera_look_at;
     Vector3 camera_y = Cross(camera_z, camera_x);
     camera_y.Normalize();
     Matrix tmp_camera_translation = Matrix();
@@ -326,12 +356,12 @@ namespace XX_XZH {
     tmp_camera_translation.matrix_[1][3] = -pos_y;
     tmp_camera_translation.matrix_[2][3] = -pos_z;
     Matrix tmp_camera_rotation = Matrix();
-    tmp_camera_rotation.matrix_[0][0] = camera_x.GetX();tmp_camera_rotation.matrix_[0][1] = camera_x.GetY();tmp_camera_rotation.matrix_[0][2] = camera_x.GetZ();
-    tmp_camera_rotation.matrix_[1][0] = camera_y.GetX();tmp_camera_rotation.matrix_[1][1] = camera_y.GetY();tmp_camera_rotation.matrix_[1][2] = camera_y.GetZ();
-    tmp_camera_rotation.matrix_[2][0] = camera_z.GetX();tmp_camera_rotation.matrix_[2][1] = camera_z.GetY();tmp_camera_rotation.matrix_[2][2] = camera_z.GetZ();
-    this->matrix_ = (tmp_camera_rotation * tmp_camera_translation).matrix_;
+    tmp_camera_rotation.matrix_[0][0] = camera_x.GetX(); tmp_camera_rotation.matrix_[0][1] = camera_x.GetY(); tmp_camera_rotation.matrix_[0][2] = camera_x.GetZ();
+    tmp_camera_rotation.matrix_[1][0] = camera_y.GetX(); tmp_camera_rotation.matrix_[1][1] = camera_y.GetY(); tmp_camera_rotation.matrix_[1][2] = camera_y.GetZ();
+    tmp_camera_rotation.matrix_[2][0] = camera_z.GetX(); tmp_camera_rotation.matrix_[2][1] = camera_z.GetY(); tmp_camera_rotation.matrix_[2][2] = camera_z.GetZ();
+    memcpy(matrix_, (tmp_camera_rotation * tmp_camera_translation).matrix_, sizeof(float) * 16);
   }
-  /*Projection¾ØÕó
+  /*ProjectionçŸ©é˜µ
   * halve = (fov/2)*m_pi/180;
   * n = zN;
   * f = zF;
@@ -377,9 +407,9 @@ namespace XX_XZH {
     for (int i = 0; i < matrix_order_; i++) {
       for (int j = 0; j < matrix_order_; j++) {
         if (i == j) {
-          matrix_[i][j] = 1;
+          matrix_[i][j] = 1.0f;
         }
-        matrix_[i][j] = 0;
+        matrix_[i][j] = 0.0f;
       }
     }
   }
@@ -388,7 +418,7 @@ namespace XX_XZH {
       for (int j = 0; j < matrix_order_; j++) {
         std::cout << matrix_[i][j] << " ";
       }
-      std::cout << std::endl; 
+      std::cout << std::endl;
     }
   }
   void Matrix::ModelScale(float x, float y, float z)
@@ -426,20 +456,35 @@ namespace XX_XZH {
   }
   Matrix operator*(const Matrix& m1, const Matrix& m2)
   {
-    Matrix tmp_matrix;
+    Matrix tmp_matrix = Matrix();
     int tmp_num;
     assert(m1.GetMatrixOrder() == m2.GetMatrixOrder());
     tmp_num = m1.GetMatrixOrder();
     for (int i = 0; i < tmp_num; i++) {
       for (int j = 0; j < tmp_num; j++) {
+        tmp_matrix.matrix_[i][j] = 0;
         for (int k = 0; k < tmp_num; k++) {
-          tmp_matrix.matrix_[i][j] += m1.matrix_[i][k] * m2.matrix_[k][j];
+          tmp_matrix.matrix_[i][j] += (m1.matrix_[i][k] * m2.matrix_[k][j]);
         }
       }
     }
     return tmp_matrix;
   }
-  /*º¯Êı×¢ÊÍ£ºĞèÒªÅĞ¶Ï·ûºÅÊÇ·ñÏàµÈ£¬1Ëã·ûºÅ£¬2·ûºÅÔËËã*/
+  Vector3& operator*(const Matrix& m1, Vector3& v3) {
+    Vector3 tmp_v3 = Vector3();
+    float tmp_num;
+    int matrix_order = m1.GetMatrixOrder();
+    for (int i = 0; i < matrix_order; i++) {
+      tmp_num = 0;
+      for (int k = 0; k < matrix_order; k++) {
+        tmp_num += m1.matrix_[i][k] * v3[k];
+      }
+      tmp_v3[i] = tmp_num;
+    }
+    v3 = tmp_v3;
+    return v3;
+  }
+  /*å‡½æ•°æ³¨é‡Šï¼šéœ€è¦åˆ¤æ–­ç¬¦å·æ˜¯å¦ç›¸ç­‰ï¼Œ1ç®—ç¬¦å·ï¼Œ2ç¬¦å·è¿ç®—*/
   bool IsEqual(float a, float b, float c)
   {
     if (a >= 0 && b >= 0 && c >= 0) {

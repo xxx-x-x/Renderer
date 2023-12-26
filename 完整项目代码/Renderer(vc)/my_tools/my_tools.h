@@ -11,7 +11,7 @@
 #include<assert.h>
 #include<Windows.h>
 #include"../my_math/my_math.h"
-#include"../my_models/my_triangle.h"
+#include"../my_models/face.h"
 namespace XX_XZH {
   /*函数注释：根据二维点向量画图*/
   void DrawDot(HDC& hdc, Vector2& dot_location);
@@ -27,9 +27,9 @@ namespace XX_XZH {
   void DrawLineUseDDAv1(HDC& hdc, Vector3 start_location, Vector3 end_location);/*使用DDA算法画线*/
   void DrawLineUseDDALegacy(HDC& hdc, Vector3 start_location, Vector3 end_location);/*使用DDA算法画线*/
   /*函数注释：对三角面片进行着色
-  * 参数说明：输出屏幕HDC，三角面片的三个顶点坐标
+  * 参数说明：输入屏幕HDC，三角面片的三个顶点坐标,以及一个面
   */
-  void DrawTriangleUseAABB(HDC& hdc,Triangle& triangle);
+  void DrawFaceUseAABB(HDC& hdc,Face tmp_f1,std::vector<Vector3> tmp_v);
 }
 #endif // !_MY_TOOLS_
 

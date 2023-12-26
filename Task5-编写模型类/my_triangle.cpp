@@ -1,8 +1,10 @@
-/*
-* �ļ�����my_triangle.cpp
-* ������Ϣ��л���
-* �ع�ʱ�䣺2023-12-18
-* �ļ����ݣ�ģ���������������Ƭ
+﻿/*
+* (legacy) 注意，该文件已经弃用
+* 文件名：my_triangle.cpp
+* 作者信息：谢泽浩
+* 重构时间：2023-12-18
+* 文件内容：模型最基础的三角面片
+* 编码格式：UTF-8
 * Copyright 2023 - 2099 xx-xzh.All Rights Reserved.
 */
 #include "my_triangle.h"
@@ -23,7 +25,7 @@ namespace XX_XZH {
     std::cout << "~Triangle" << std::endl;
     delete []triangle_dots;
   }
-  //�ؼ����޶���Ա���������޸ģ����ǲ��ܷ�ָֹ��ָ������ݱ��޸�
+  //关键词限定成员变量不被修改，但是不能防止指针指向的内容被修改
   const Vector2* Triangle::GetTriangleDots() const
   {
     return triangle_dots;
@@ -44,6 +46,6 @@ namespace XX_XZH {
       Vector2 dot_p_sub_vertex = dot_p - tmp_tri.triangle_dots[i];
       tmp_result.push_back(Cross(vertex_sub_vertex, dot_p_sub_vertex));
     }
-    return IS_EQUAL(tmp_result[0], tmp_result[1], tmp_result[2]) == true ? INSIDE:OUTSIDE;
+    return IS_EQUAL(tmp_result[0], tmp_result[1], tmp_result[2]) == true ? 1:0;
   }
 }
