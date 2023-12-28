@@ -134,15 +134,7 @@ WaveFrontOBJ WavefrontOBJParser(char* url)
       tmp_obj.f.push_back(tmp_face);
     }
   }
-  for (int i = 0; i < tmp_obj.v.size(); i++)
-  {
-    tmp_obj.v[i].OutPutVector3();
-  }
-  for (int i = 0; i < tmp_obj.f.size(); i++)
-  {
-    tmp_obj.f[i].OutputFace();
-  }
-  std::cout << total_line << std::endl;
+  std::cout <<"总计" << total_line<<"行,"<<tmp_obj.f.size()<<"面"<<tmp_obj.v.size()<<"点" << std::endl;
   return tmp_obj;
 }
 }//namespace

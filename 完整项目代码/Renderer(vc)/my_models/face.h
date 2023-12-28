@@ -18,7 +18,7 @@ namespace XX_XZH{
   enum IS_INSIDE {OUTSIDE=0,INSIDE,ONLINE};
   class Face{
     public:
-      friend int DotInside(Face tmp_face, std::vector<Vector3> v,float dot_x,float dot_y);
+      friend int DotInside(Face& tmp_face, std::vector<Vector3>& v,int& dot_x,int& dot_y);
       Face() = default;
       virtual ~Face() = default;
       void OutputFace()const;
@@ -33,6 +33,6 @@ namespace XX_XZH{
       //顶点法线索引
       std::vector<int> vertex_normal_index;
   };
-  int DotInside(Face tmp_face, std::vector<Vector3> v,float dot_x,float dot_y);
+  int DotInside(Face& tmp_face, std::vector<Vector3>& v,int& dot_x,int& dot_y);
 }
 #endif // !_FACE_H_

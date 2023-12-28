@@ -8,6 +8,7 @@ main.o:
 	g++ -o main.o -c ./main.cpp 
 my_tools.o:
 	g++ -o my_tools.o -c ./my_tools/my_tools.cpp
+
 my_math.o:
 	g++ -o my_math.o -c ./my_math/my_math.cpp
 face.o:

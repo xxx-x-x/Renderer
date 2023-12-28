@@ -48,6 +48,7 @@ namespace XX_XZH {
     float& operator[](int index);
     operator Vector2();
     Vector3 operator-();
+  private:
     float x_;
     float y_;
     float z_;

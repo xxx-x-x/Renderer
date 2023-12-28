@@ -40,25 +40,27 @@ Matrix ViewPort;
 //创建一个全局模型类数组，用来存放所有数组
 std::vector<WaveFrontOBJ> arr_obj;
 //全局函数前置声明
-int DrawPicture(HWND hWnd,WaveFrontOBJ obj);
+int DrawPicture(HWND hWnd,WaveFrontOBJ& obj);
 int WINAPI WinMain(_In_ HINSTANCE hInstance,_In_opt_ HINSTANCE hPrevInstance,_In_ LPSTR     lpCmdLine,_In_ int       nCmdShow)
 {
   //加载一个模型
   WaveFrontOBJ tmp_obj;
-  char url[100] = "./obj_model/Sting-Sword-lowpoly.obj";
+  //char url[100] = "./obj_model/Sting-Sword-lowpoly.obj";
+  char url[100] = "./obj_model/triangle.obj";
+  //char url[100] = "./obj_model/african_head.obj";
   tmp_obj = WavefrontOBJParser(url);
   arr_obj.push_back(tmp_obj);
   std::cout << "模型加载完毕" <<std::endl;
   //模型坐标系变换
   Model.ModelTranslation(0, 0, 0);
-  View.ViewMatrix(0,0,0,0,0,-1,0,1,0);
+  View.ViewMatrix(0,0,2,0,0,-1,0,1,0);
   Project.ProjectionMatrix(1,-1,-1,-10,1,-1);
   ViewPort.ViewportMatrix(MAX_WIDTH,MAX_HEIGHT);
   //第一步，加载所有模型
   for(int i=0;i<arr_obj.size();i++){
     //第二步，加载模型上，所有的点
     for(int j=0;j<arr_obj[i].v.size();j++){
-      arr_obj[i].v[j] = (ViewPort * Project * View * Model * arr_obj[0].v[j]).Identity();
+      arr_obj[i].v[j] = (ViewPort * Project * View * Model * arr_obj[i].v[j]).Identity();
     }
   }
   WNDCLASSEX wcex;
@@ -122,7 +124,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     //stop - start 得到这一帧的时间
     //1000 / (stop - start) 一秒除以时间得到这一帧的帧率
     fps = CLOCKS_PER_SEC / (stop - start);
-
     TCHAR cha[16];
     _itot(fps,cha,10);
     TextOut(hdc,5, 5,cha, _tcslen(cha));
@@ -143,7 +144,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 /**函数注释：双缓冲算法实现的绘图
  * 函数输入：变换后的点坐标和面
 */
-int DrawPicture(HWND hWnd,WaveFrontOBJ obj) {
+int DrawPicture(HWND hWnd,WaveFrontOBJ& obj) {
   /*开始双缓冲算法实现*/  
   //得到屏幕设备上下文
   HDC WindowsDC = GetDC(hWnd);
@@ -163,16 +164,12 @@ int DrawPicture(HWND hWnd,WaveFrontOBJ obj) {
   if (MemoryDC != NULL) {
     FillRect(MemoryDC, new RECT{ 0,0,MAX_WIDTH,MAX_HEIGHT }, (HBRUSH)(COLOR_WINDOW + 1));
   }
-
   //加载模型的面
   for(int i=0;i<obj.f.size();i++){
-    //arr_obj[0].f[i] 中存放了顶点的顺序，按照顺序绘图即可
+    //obj].f[i] 中存放了顶点的顺序，按照顺序绘图即可
     //！！注意，索引值是比数组下标大一的
-    std::vector<int> tmp_index = arr_obj[0].f[i].vertex_index;
-    DrawLineUseDDAv1(MemoryDC,arr_obj[0].v[tmp_index[0]-1],arr_obj[0].v[tmp_index[1]-1]);
-    DrawLineUseDDAv1(MemoryDC,arr_obj[0].v[tmp_index[1]-1],arr_obj[0].v[tmp_index[2]-1]);
-    DrawLineUseDDAv1(MemoryDC,arr_obj[0].v[tmp_index[2]-1],arr_obj[0].v[tmp_index[3]-1]);
-    DrawLineUseDDAv1(MemoryDC,arr_obj[0].v[tmp_index[3]-1],arr_obj[0].v[tmp_index[0]-1]);
+    std::vector<int> tmp_index = obj.f[i].vertex_index;
+    DrawFaceUseLine(MemoryDC,obj.v[tmp_index[0]-1],obj.v[tmp_index[1]-1],obj.v[tmp_index[2]-1],RGB(0,250,0));
   }
   //DrawTriangleUseAABB(MemoryDC, tri);
   //将内存DC到主DC1上
