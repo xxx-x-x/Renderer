@@ -26,7 +26,7 @@ namespace XX_XZH
     }
     return IS_EQUAL(tmp_result[0], tmp_result[1], tmp_result[2]) == true ? INSIDE:OUTSIDE;
   }
-  int DotInside(Face& tmp_face, std::vector<Vector3>& v,int& dot_x,int& dot_y){
+  int DotInsideUseCross(Face& tmp_face, std::vector<Vector3>& v,int& dot_x,int& dot_y){
     std::vector<float> tmp_result;
     Vector2 dot_p(dot_x,dot_y);
     for(int i=0;i<tmp_face.vertex_index.size();i++){
@@ -35,6 +35,5 @@ namespace XX_XZH
       tmp_result.push_back(Cross(vertex_sub_vertex,dot_p_sub_vertex));
     }
     return IS_EQUAL(tmp_result[0], tmp_result[1], tmp_result[2]) == true ? INSIDE:OUTSIDE;
-
   }
 }

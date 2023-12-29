@@ -155,5 +155,6 @@ namespace XX_XZH {
   bool IsEqual(float a, float b, float c);
   float MaxNum(float a, float b, float c);
   float MinNum(float a, float b, float c);
+  Vector3 Barycentric(Vector3& a,Vector3& b,Vector3& c,Vector3& p);
 }
 #endif // !_MY_MATH_H_

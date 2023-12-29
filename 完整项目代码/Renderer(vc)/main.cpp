@@ -46,14 +46,14 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance,_In_opt_ HINSTANCE hPrevInstance,_In
   //加载一个模型
   WaveFrontOBJ tmp_obj;
   //char url[100] = "./obj_model/Sting-Sword-lowpoly.obj";
-  char url[100] = "./obj_model/triangle.obj";
-  //char url[100] = "./obj_model/african_head.obj";
+  //char url[100] = "./obj_model/triangle.obj";
+  char url[100] = "./obj_model/african_head.obj";
   tmp_obj = WavefrontOBJParser(url);
   arr_obj.push_back(tmp_obj);
   std::cout << "模型加载完毕" <<std::endl;
   //模型坐标系变换
   Model.ModelTranslation(0, 0, 0);
-  View.ViewMatrix(0,0,2,0,0,-1,0,1,0);
+  View.ViewMatrix(0,0,1.5,0,0,-1,0,1,0);
   Project.ProjectionMatrix(1,-1,-1,-10,1,-1);
   ViewPort.ViewportMatrix(MAX_WIDTH,MAX_HEIGHT);
   //第一步，加载所有模型
@@ -169,7 +169,8 @@ int DrawPicture(HWND hWnd,WaveFrontOBJ& obj) {
     //obj].f[i] 中存放了顶点的顺序，按照顺序绘图即可
     //！！注意，索引值是比数组下标大一的
     std::vector<int> tmp_index = obj.f[i].vertex_index;
-    DrawFaceUseLine(MemoryDC,obj.v[tmp_index[0]-1],obj.v[tmp_index[1]-1],obj.v[tmp_index[2]-1],RGB(0,250,0));
+    //DrawFaceUseLine(MemoryDC,obj.v[tmp_index[0]-1],obj.v[tmp_index[1]-1],obj.v[tmp_index[2]-1],RGB(0,0,255));
+    DrawFaceUseBarycentricAABB(MemoryDC,obj.v[tmp_index[0]-1],obj.v[tmp_index[1]-1],obj.v[tmp_index[2]-1],RGB(rand()%255,rand()%255,rand()%255));
   }
   //DrawTriangleUseAABB(MemoryDC, tri);
   //将内存DC到主DC1上
