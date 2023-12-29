@@ -1,14 +1,12 @@
-# Renderer
+# 项目框架
 
-摄像机在（0，0，0）
+![image-20231229221254838](./assets/image-20231229221254838.png)
 
-可视范围（-1，-10）
+# 渲染器逻辑
 
-![image-20231228211643393](./assets/image-20231228211643393.png)
 
-当三角面片离摄像机最远，在-9时：
 
-![image-20231222221533709](./assets/image-20231222221533709.png)
+<img src="./assets/image-20231228211643393.png" alt="image-20231228211643393" style="zoom:100%;" /><img src="./assets/image-20231229221415864.png" alt="image-20231229221415864" style="zoom:50%;" />
 
 
 
@@ -136,5 +134,7 @@ int value = _wtoi( tempstr.c_str());
 
 16. [vscode控制台乱码](https://juejin.cn/post/7032129567473188872)
 
-    
+# API文档
+
+
 
