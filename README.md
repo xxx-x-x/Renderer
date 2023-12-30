@@ -6,7 +6,7 @@
 
 
 
-<img src="./assets/image-20231228211643393.png" alt="image-20231228211643393" style="zoom:100%;" /><img src="./assets/image-20231229221415864.png" alt="image-20231229221415864" style="zoom:50%;" />
+<img src="./assets/image-20231229221415864.png" alt="image-20231229221415864" style="zoom:50%;" />
 
 
 
