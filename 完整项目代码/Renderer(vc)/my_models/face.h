@@ -19,6 +19,7 @@ namespace XX_XZH{
   class Face{
     public:
       friend int DotInsideUseCross(Face& tmp_face, std::vector<Vector3>& v,int& dot_x,int& dot_y);
+      friend Vector3 FaceNormal(Face& tmp_face,std::vector<Vector3>& v);
       Face() = default;
       virtual ~Face() = default;
       void OutputFace()const;
@@ -34,5 +35,6 @@ namespace XX_XZH{
       std::vector<int> vertex_normal_index;
   };
   int DotInsideUseCross(Face& tmp_face, std::vector<Vector3>& v,int& dot_x,int& dot_y);
+  Vector3 FaceNormal(Face& tmp_face,std::vector<Vector3>& v);
 }
 #endif // !_FACE_H_

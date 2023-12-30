@@ -28,7 +28,7 @@ namespace XX_XZH {
   /**
    * 函数注释：使用AABB包围盒，包围面后，对面进行扫描
   */
-  void DrawFaceUseBarycentricAABB(HDC& hdc,Vector3 v1,Vector3 v2,Vector3 v3,COLORREF rgb);
+  void DrawFaceUseBarycentricAABB(HDC& hdc,float *zbuffer,Vector3 v1,Vector3 v2,Vector3 v3,COLORREF rgb);
   /**
    * 函数注释：利用向量相似三角形原理，得到三角形同一Y的左右两个点，遍历着色之间的所有点
   */

@@ -36,4 +36,12 @@ namespace XX_XZH
     }
     return IS_EQUAL(tmp_result[0], tmp_result[1], tmp_result[2]) == true ? INSIDE:OUTSIDE;
   }
+  Vector3 FaceNormal(Face& tmp_face,std::vector<Vector3>& v){
+    Vector3 result;
+    Vector3 left_vector3 = v[tmp_face.vertex_index[2]-1] - v[tmp_face.vertex_index[0]-1];
+    Vector3 right_vector3 = v[tmp_face.vertex_index[1]-1] - v[tmp_face.vertex_index[0]-1];
+    result = Cross(left_vector3,right_vector3);
+    result.Normalize();
+    return result;
+  }
 }

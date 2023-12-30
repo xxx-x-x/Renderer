@@ -39,7 +39,7 @@ namespace XX_XZH {
     void SetW(float w);
 
     void Normalize(); //单位化向量
-    float Norm();     //向量的模
+    double Norm();     //向量的模
     Vector3& Identity();
     void OutPutVector3();
     void ExchangeXY();

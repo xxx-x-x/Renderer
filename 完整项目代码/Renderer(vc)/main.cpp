@@ -37,8 +37,10 @@ Matrix Model;
 Matrix View;
 Matrix Project;
 Matrix ViewPort;
-//创建一个全局模型类数组，用来存放所有数组
+float *zbuffer = new float[MAX_HEIGHT * MAX_WIDTH];
+Vector3 light_dir;
 std::vector<WaveFrontOBJ> arr_obj;
+std::vector<WaveFrontOBJ> arr_obj_origin;
 //全局函数前置声明
 int DrawPicture(HWND hWnd,WaveFrontOBJ& obj);
 int WINAPI WinMain(_In_ HINSTANCE hInstance,_In_opt_ HINSTANCE hPrevInstance,_In_ LPSTR     lpCmdLine,_In_ int       nCmdShow)
@@ -50,11 +52,13 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance,_In_opt_ HINSTANCE hPrevInstance,_In
   char url[100] = "./obj_model/african_head.obj";
   tmp_obj = WavefrontOBJParser(url);
   arr_obj.push_back(tmp_obj);
+  arr_obj_origin.push_back(tmp_obj);
   std::cout << "模型加载完毕" <<std::endl;
+  
   //模型坐标系变换
   Model.ModelTranslation(0, 0, 0);
   View.ViewMatrix(0,0,1.5,0,0,-1,0,1,0);
-  Project.ProjectionMatrix(1,-1,-1,-10,1,-1);
+  Project.ProjectionMatrix(1,-1,-1,-2,1,-1);
   ViewPort.ViewportMatrix(MAX_WIDTH,MAX_HEIGHT);
   //第一步，加载所有模型
   for(int i=0;i<arr_obj.size();i++){
@@ -63,6 +67,10 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance,_In_opt_ HINSTANCE hPrevInstance,_In
       arr_obj[i].v[j] = (ViewPort * Project * View * Model * arr_obj[i].v[j]).Identity();
     }
   }
+  light_dir = Vector3(0,0,-1) - Vector3(0,0,0);
+  light_dir.Normalize();
+  for (int i=MAX_HEIGHT * MAX_WIDTH; i--; zbuffer[i] = -100000);
+  std::cout << "灯光初始化完毕" <<std::endl;
   WNDCLASSEX wcex;
   wcex.cbSize = sizeof(WNDCLASSEX);
   wcex.style = CS_HREDRAW | CS_VREDRAW;
@@ -170,7 +178,12 @@ int DrawPicture(HWND hWnd,WaveFrontOBJ& obj) {
     //！！注意，索引值是比数组下标大一的
     std::vector<int> tmp_index = obj.f[i].vertex_index;
     //DrawFaceUseLine(MemoryDC,obj.v[tmp_index[0]-1],obj.v[tmp_index[1]-1],obj.v[tmp_index[2]-1],RGB(0,0,255));
-    DrawFaceUseBarycentricAABB(MemoryDC,obj.v[tmp_index[0]-1],obj.v[tmp_index[1]-1],obj.v[tmp_index[2]-1],RGB(rand()%255,rand()%255,rand()%255));
+    //背面剔除
+    Vector3 face_normal = FaceNormal(obj.f[i],arr_obj_origin[0].v);
+    double intensity = face_normal*light_dir;
+    if(face_normal.GetZ()<0){
+      DrawFaceUseBarycentricAABB(MemoryDC,zbuffer,obj.v[tmp_index[0]-1],obj.v[tmp_index[1]-1],obj.v[tmp_index[2]-1],RGB(intensity*255,intensity*255,intensity*255));
+    }
   }
   //DrawTriangleUseAABB(MemoryDC, tri);
   //将内存DC到主DC1上

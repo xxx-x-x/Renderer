@@ -58,14 +58,14 @@ namespace XX_XZH {
     w_ = w;
   }
   void Vector3::Normalize() {
-    float tmp_result;
+    double tmp_result;
     tmp_result = this->Norm();
     this->x_ = this->x_ / tmp_result;
     this->y_ = this->y_ / tmp_result;
     this->z_ = this->z_ / tmp_result;
   }
-  float Vector3::Norm() {
-    return (float)sqrt(x_ * x_ + y_ * y_ + z_ * z_);
+  double Vector3::Norm() {
+    return sqrt(x_ * x_ + y_ * y_ + z_ * z_);
   }
   Vector3& Vector3::Identity()
   {

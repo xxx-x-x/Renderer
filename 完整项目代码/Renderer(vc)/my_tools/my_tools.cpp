@@ -150,7 +150,7 @@ namespace XX_XZH
     } 
   }
 
-  void DrawFaceUseBarycentricAABB(HDC& hdc,Vector3 v1,Vector3 v2,Vector3 v3,COLORREF rgb)
+  void DrawFaceUseBarycentricAABB(HDC& hdc,float *zbuffer,Vector3 v1,Vector3 v2,Vector3 v3,COLORREF rgb)
   {
     // 调用数学库中的计算最大最小值函数
     float max_x = MAX_NUM(v1.GetX(), v2.GetX(), v3.GetX());
@@ -165,11 +165,16 @@ namespace XX_XZH
       {
         Vector3 p = Vector3(j,i,0);
         //判断重心坐标有无负值
-        Vector3 tmp_vector3 = Barycentric(v1,v2,v3,p);
-        if(tmp_vector3.GetX() < 0 || tmp_vector3.GetY()<0 || tmp_vector3.GetZ() <0){
+        Vector3 barycentric = Barycentric(v1,v2,v3,p);
+        if(barycentric.GetX() < 0 || barycentric.GetY()<0 || barycentric.GetZ() <0){
           continue;
         }
-        SetPixel(hdc,j,i,rgb);
+        //一个像素点的z = 其他三个像素点的z 乘以 重心坐标
+        p.SetZ(v1.GetZ()*barycentric.GetX() + v2.GetZ()*barycentric.GetY() + v3.GetZ()*barycentric.GetZ());
+        if(zbuffer[int(j+i*800)]<=p.GetZ()){
+          zbuffer[int(j+i*800)]=p.GetZ();
+          SetPixel(hdc,j,i,rgb);
+        }
       }
     }
   }
