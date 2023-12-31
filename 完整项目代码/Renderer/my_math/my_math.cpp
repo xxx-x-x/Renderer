@@ -58,25 +58,26 @@ namespace XX_XZH {
     w_ = w;
   }
   void Vector3::Normalize() {
-    float tmp_result;
+    double tmp_result;
     tmp_result = this->Norm();
     this->x_ = this->x_ / tmp_result;
     this->y_ = this->y_ / tmp_result;
     this->z_ = this->z_ / tmp_result;
   }
-  float Vector3::Norm() {
-    return (float)sqrt(x_ * x_ + y_ * y_ + z_ * z_);
+  double Vector3::Norm() {
+    return sqrt(x_ * x_ + y_ * y_ + z_ * z_);
   }
-  void Vector3::Identity()
+  Vector3& Vector3::Identity()
   {
     this->x_ = this->x_ / this->w_;
     this->y_ = this->y_ / this->w_;
     this->z_ = this->z_ / this->w_;
     this->w_ = this->w_ / this->w_;
+    return *this;
   }
   void Vector3::OutPutVector3()
   {
-    std::cout << "Vector3:" << this->GetX() << "," << this->GetY() << "," << this->GetZ() << "," << this->GetW() << std::endl;
+    std::cout << this->GetX() << "," << this->GetY() << "," << this->GetZ() << "," << this->GetW() << std::endl;
   }
   void Vector3::ExchangeXY()
   {
@@ -108,7 +109,7 @@ namespace XX_XZH {
   Vector3 Cross(const Vector3& left_v3, const Vector3& right_v3) {
     Vector3 tmp_vector3;
     tmp_vector3.SetX(left_v3.GetY() * right_v3.GetZ() - right_v3.GetY() * left_v3.GetZ());
-    tmp_vector3.SetY(left_v3.GetZ() * right_v3.GetX() - right_v3.GetZ() * left_v3.GetY());
+    tmp_vector3.SetY(left_v3.GetZ() * right_v3.GetX() - right_v3.GetZ() * left_v3.GetX());
     tmp_vector3.SetZ(left_v3.GetX() * right_v3.GetY() - right_v3.GetX() * left_v3.GetY());
     tmp_vector3.SetW(0);
     return tmp_vector3;
@@ -302,7 +303,7 @@ namespace XX_XZH {
     return !(left_v2.GetX() == right_v2.GetX() && left_v2.GetY() == right_v2.GetY());
   }
   Matrix::Matrix() {
-    std::cout << "Matrix构造函数调用" << std::endl;
+  //  std::cout << "Matrix构造函数调用" << std::endl;
     matrix_order_ = 4;
     for (int i = 0; i < 4; i++) {
       for (int j = 0; j < 4; j++) {
@@ -499,41 +500,28 @@ namespace XX_XZH {
 
   float MaxNum(float a, float b, float c)
   {
-    if (a >= b) {
-      if (a >= c) {
-        return a;
-      }
-      else {
-        return c;
-      }
-    }
-    else {
-      if (b >= c) {
-        return b;
-      }
-      else {
-        return c;
-      }
-    }
+    float result;
+    result = a>=b?a:b;
+    result = c>=result?c:result;
+    return result;
   }
   float MinNum(float a, float b, float c)
   {
-    if (a <= b) {
-      if (a <= c) {
-        return a;
-      }
-      else {
-        return c;
-      }
-    }
-    else {
-      if (b <= c) {
-        return b;
-      }
-      else {
-        return c;
-      }
-    }
+    float result;
+    result = a<=b?a:b;
+    result = c<=result?c:result;
+    return result;
   }
-
+  /**
+   * 函数注释：该函数用来计算三个点，与P点，之间的重心坐标
+   * a,b,c为三角形三个点，p为屏幕x,y,0
+   * 其实只使用他们的x,y轴坐标，不使用z轴坐标和w轴坐标
+  */
+  Vector3 Barycentric(Vector3& a,Vector3& b,Vector3& c,Vector3& p){
+    //
+    Vector3 barycentric =Cross(Vector3((b-a).GetX(),(c-a).GetX(),(a-p).GetX()),Vector3((b-a).GetY(),(c-a).GetY(),(a-p).GetY()));
+    if(std::abs(barycentric.GetZ())<1) return Vector3(-1,1,1);
+    //barycentric 中存放的 zu,zv,z，我们返回(1-u-v,u,v)
+    return Vector3(1.f-(barycentric.GetX()+barycentric.GetY())/barycentric.GetZ(),barycentric.GetX()/barycentric.GetZ(),barycentric.GetY()/barycentric.GetZ());
+  }
 }

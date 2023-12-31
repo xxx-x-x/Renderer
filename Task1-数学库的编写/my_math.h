@@ -39,7 +39,7 @@ namespace XX_XZH {
     void SetW(float w);
 
     void Normalize(); //单位化向量
-    float Norm();     //向量的模
+    double Norm();     //向量的模
     Vector3& Identity();
     void OutPutVector3();
     void ExchangeXY();
@@ -48,6 +48,7 @@ namespace XX_XZH {
     float& operator[](int index);
     operator Vector2();
     Vector3 operator-();
+  private:
     float x_;
     float y_;
     float z_;
@@ -154,5 +155,6 @@ namespace XX_XZH {
   bool IsEqual(float a, float b, float c);
   float MaxNum(float a, float b, float c);
   float MinNum(float a, float b, float c);
+  Vector3 Barycentric(Vector3& a,Vector3& b,Vector3& c,Vector3& p);
 }
 #endif // !_MY_MATH_H_
