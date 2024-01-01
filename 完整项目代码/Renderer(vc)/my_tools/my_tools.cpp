@@ -149,6 +149,46 @@ namespace XX_XZH
         } 
     } 
   }
+  void DrawFaceUseBarycentricAABB(HDC& hdc,float *zbuffer,int face_index,WaveFrontOBJ& obj,double intensity){
+    Vector3 v1,v2,v3;
+    v1 = obj.v[obj.f[face_index].vertex_index[0]-1];
+    v2 = obj.v[obj.f[face_index].vertex_index[1]-1];
+    v3 = obj.v[obj.f[face_index].vertex_index[2]-1];
+    Vector3 vt1,vt2,vt3;
+    vt1 = obj.vt[obj.f[face_index].vertex_texture_index[0]-1];
+    vt2 = obj.vt[obj.f[face_index].vertex_texture_index[1]-1];
+    vt3 = obj.vt[obj.f[face_index].vertex_texture_index[2]-1];
+    Vector3 p_vt;
+    // 调用数学库中的计算最大最小值函数
+    float max_x = MAX_NUM(v1.GetX(), v2.GetX(), v3.GetX());
+    float min_x = MIN_NUM(v1.GetX(), v2.GetX(), v3.GetX());
+    float max_y = MAX_NUM(v1.GetY(), v2.GetY(), v3.GetY());
+    float min_y = MIN_NUM(v1.GetY(), v2.GetY(), v3.GetY());
+    // 光栅化，原点在左上角，所以左上角开始，右下角结束，
+    Vector3 p;
+    for (int i = (int)min_y; i < (int)max_y; i++)
+    {
+      for (int j = (int)min_x; j < (int)max_x; j++)
+      {
+        Vector3 p = Vector3(j,i,0);
+        //判断重心坐标有无负值
+        Vector3 barycentric = Barycentric(v1,v2,v3,p);
+        if(barycentric.GetX() < 0 || barycentric.GetY()<0 || barycentric.GetZ() <0){
+          continue;
+        }
+        //一个像素点的z = 其他三个像素点的z 乘以 重心坐标
+        p.SetZ(v1.GetZ()*barycentric.GetX() + v2.GetZ()*barycentric.GetY() + v3.GetZ()*barycentric.GetZ());
+        //p_vt(u,v,0);
+        p_vt.SetX(vt1.GetX()*barycentric.GetX()+vt2.GetX()*barycentric.GetY()+vt3.GetX()*barycentric.GetZ());
+        p_vt.SetY(vt1.GetY()*barycentric.GetX()+vt2.GetY()*barycentric.GetY()+vt3.GetY()*barycentric.GetZ());
+        //贴图
+        if(zbuffer[int(j+i*800)]<=p.GetZ()){
+          zbuffer[int(j+i*800)]=p.GetZ();
+          SetPixel(hdc,j,i,RGB(255*intensity,255*intensity,255*intensity));
+        }
+      }
+    }
+  }
 
   void DrawFaceUseBarycentricAABB(HDC& hdc,float *zbuffer,Vector3 v1,Vector3 v2,Vector3 v3,COLORREF rgb)
   {

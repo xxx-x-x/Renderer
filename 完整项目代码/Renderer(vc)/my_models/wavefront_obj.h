@@ -8,6 +8,7 @@
 #ifndef _WAVEFRONT_OBJ_H_
 #define _WAVEFRONT_OBJ_H_
 #include<vector>
+#include<windows.h>
 #include"face.h"
 #include"../my_math/my_math.h"
 namespace XX_XZH
@@ -25,12 +26,13 @@ class WaveFrontOBJ{
     WaveFrontOBJ();
     virtual ~WaveFrontOBJ() = default;
     void OutputWaveFrontOBJ();
+    void SetTexture(char url[]);
     std::vector<Vector3> v; 
     std::vector<Vector3> vt;
     std::vector<Vector3> vn;
     std::vector<Face> f;
     char usemtl[100];
-    char mtllib[100];
+    char texture[100];
 };
 } // namespace XX_XZH
 #endif

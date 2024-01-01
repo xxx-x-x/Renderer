@@ -9,7 +9,7 @@
 namespace XX_XZH{
   WaveFrontOBJ::WaveFrontOBJ(){
     char usemtl[100] = "null";
-    char mtllib[100] = "null";
+    char texture[100] = "null";
   }
   void WaveFrontOBJ::OutputWaveFrontOBJ(){
     for(std::vector<Vector3>::iterator it = v.begin();it!=v.end();it++){
@@ -25,5 +25,7 @@ namespace XX_XZH{
       std::cout<<"f ";(*it).OutputFace();
     }
     std::cout<< std::endl << usemtl << std::endl;
+  }
+  void WaveFrontOBJ::SetTexture(char url[]){
   }
 }

@@ -54,7 +54,6 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance,_In_opt_ HINSTANCE hPrevInstance,_In
   arr_obj.push_back(tmp_obj);
   arr_obj_origin.push_back(tmp_obj);
   std::cout << "模型加载完毕" <<std::endl;
-  
   //模型坐标系变换
   Model.ModelTranslation(0, 0, 0);
   View.ViewMatrix(0,0,1.5,0,0,-1,0,1,0);
@@ -158,10 +157,6 @@ int DrawPicture(HWND hWnd,WaveFrontOBJ& obj) {
   HDC WindowsDC = GetDC(hWnd);
   //创建一个内存设备上下文
   HDC MemoryDC = CreateCompatibleDC(WindowsDC);
-  //如果内存DC创建失败，打印消息
-  if (MemoryDC == NULL) {
-    MessageBox(NULL,_T("Call to CreateCompatibleDC failed!"),_T("Windows Desktop Guided Tour"),NULL);
-  }
   //创建一个内存位图
   HBITMAP MemoryBitmap = CreateCompatibleBitmap(WindowsDC, MAX_WIDTH, MAX_HEIGHT);
   //将位图选入内存设备上下文,保存旧位图
@@ -182,7 +177,7 @@ int DrawPicture(HWND hWnd,WaveFrontOBJ& obj) {
     Vector3 face_normal = FaceNormal(obj.f[i],arr_obj_origin[0].v);
     double intensity = face_normal*light_dir;
     if(face_normal.GetZ()<0){
-      DrawFaceUseBarycentricAABB(MemoryDC,zbuffer,obj.v[tmp_index[0]-1],obj.v[tmp_index[1]-1],obj.v[tmp_index[2]-1],RGB(intensity*255,intensity*255,intensity*255));
+      DrawFaceUseBarycentricAABB(MemoryDC,zbuffer,i,obj,intensity);
     }
   }
   //DrawTriangleUseAABB(MemoryDC, tri);

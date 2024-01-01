@@ -12,6 +12,7 @@
 #include<Windows.h>
 #include"../my_math/my_math.h"
 #include"../my_models/face.h"
+#include"../my_models/wavefront_obj.h"
 namespace XX_XZH {
   /*函数注释：根据二维点向量画图*/
   void DrawDot(HDC& hdc, Vector2& dot_location);
@@ -27,8 +28,14 @@ namespace XX_XZH {
   void DrawLineUseBresenham(HDC& hdc,Vector3 start_location,Vector3 end_location);/*使用Bresenham算法画线*/
   /**
    * 函数注释：使用AABB包围盒，包围面后，对面进行扫描
+   * 传入参数：三个顶点坐标
   */
   void DrawFaceUseBarycentricAABB(HDC& hdc,float *zbuffer,Vector3 v1,Vector3 v2,Vector3 v3,COLORREF rgb);
+  /**
+   * 函数注释：使用AABB包围盒，包围面后，对面进行扫描
+   * 传入参数：面索引，模型
+  */
+  void DrawFaceUseBarycentricAABB(HDC& hdc,float *zbuffer,int face_index,WaveFrontOBJ& obj,double intensity);
   /**
    * 函数注释：利用向量相似三角形原理，得到三角形同一Y的左右两个点，遍历着色之间的所有点
   */
