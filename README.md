@@ -25,9 +25,9 @@ cd 完整项目代码/Renderer
 
 # 渲染图
 
-| <img src="./assets/image-20231229221415864.png" alt="image-20231229221415864" style="zoom:50%;" /> | <img src="./assets/d343b5b263f957b6cf6480b18110e70.png" alt="d343b5b263f957b6cf6480b18110e70" style="zoom:50%;" /> |
+| <img src="./assets/image-20231229221415864.png" alt="image-20231229221415864" style="zoom: 67%;" /> | <img src="./assets/image-20240102163944913.png" alt="image-20240102163944913" style="zoom:80%;" /> |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| <img src="./assets/image-20240102163314882.png" alt="image-20240102163314882" style="zoom:80%;" /> | <img src="./assets/image-20240102163316721.png" alt="image-20240102163316721" style="zoom:80%;" /> |
+| <img src="./assets/image-20240102163842321.png" alt="image-20240102163842321" style="zoom:80%;" /> | <img src="./assets/image-20240102163842321.png" alt="image-20240102163842321" style="zoom:80%;" /> |
 
 # 渲染逻辑
 
