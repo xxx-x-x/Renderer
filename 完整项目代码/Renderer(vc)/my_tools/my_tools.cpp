@@ -166,9 +166,9 @@ namespace XX_XZH
     // 光栅化，原点在左上角，所以左上角开始，右下角结束，
     Vector3 p;
     Vector3 p_vt;
-    for (int i = (int)min_y; i < (int)max_y; i++)
+    for (int i = (int)min_y+1; i < (int)max_y+1; i++)
     {
-      for (int j = (int)min_x; j < (int)max_x; j++)
+      for (int j = (int)min_x+1; j < (int)max_x+1; j++)
       {
         Vector3 p = Vector3(j,i,0);
         //判断重心坐标有无负值
@@ -186,6 +186,7 @@ namespace XX_XZH
           zbuffer[int(j+i*800)]=p.GetZ();
           TGAColor rgb =  obj.texture_tga.get(p_vt.GetX(),p_vt.GetY());
           SetPixel(hdc,j,i,RGB(rgb.bgra[2]*intensity,rgb.bgra[1]*intensity,rgb.bgra[0]*intensity));
+          //SetPixel(hdc,j,i,RGB(255*intensity,255*intensity,255*intensity));
         }
       }
     }
