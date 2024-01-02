@@ -50,10 +50,13 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance,_In_opt_ HINSTANCE hPrevInstance,_In
   //char url[100] = "./obj_model/Sting-Sword-lowpoly.obj";
   //char url[100] = "./obj_model/triangle.obj";
   char url[100] = "./obj_model/african_head.obj";
+  char url_texture[100] = "./obj_model/african_head_diffuse.tga";
   tmp_obj = WavefrontOBJParser(url);
+  std::cout << "模型加载完毕" <<std::endl;
+  tmp_obj.texture_tga.read_tga_file(url_texture);
+  std::cout << "材质加载完毕" <<std::endl;
   arr_obj.push_back(tmp_obj);
   arr_obj_origin.push_back(tmp_obj);
-  std::cout << "模型加载完毕" <<std::endl;
   //模型坐标系变换
   Model.ModelTranslation(0, 0, 0);
   View.ViewMatrix(0,0,1.5,0,0,-1,0,1,0);

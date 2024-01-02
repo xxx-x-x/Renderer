@@ -9,7 +9,6 @@
 namespace XX_XZH{
   WaveFrontOBJ::WaveFrontOBJ(){
     char usemtl[100] = "null";
-    char texture[100] = "null";
   }
   void WaveFrontOBJ::OutputWaveFrontOBJ(){
     for(std::vector<Vector3>::iterator it = v.begin();it!=v.end();it++){

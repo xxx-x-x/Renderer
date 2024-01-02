@@ -11,6 +11,7 @@
 #include<windows.h>
 #include"face.h"
 #include"../my_math/my_math.h"
+#include"tgaimage.h"
 namespace XX_XZH
 {
 /**
@@ -32,7 +33,7 @@ class WaveFrontOBJ{
     std::vector<Vector3> vn;
     std::vector<Face> f;
     char usemtl[100];
-    char texture[100];
+    TGAImage texture_tga;
 };
 } // namespace XX_XZH
 #endif

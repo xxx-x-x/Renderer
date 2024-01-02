@@ -158,7 +158,6 @@ namespace XX_XZH
     vt1 = obj.vt[obj.f[face_index].vertex_texture_index[0]-1];
     vt2 = obj.vt[obj.f[face_index].vertex_texture_index[1]-1];
     vt3 = obj.vt[obj.f[face_index].vertex_texture_index[2]-1];
-    Vector3 p_vt;
     // 调用数学库中的计算最大最小值函数
     float max_x = MAX_NUM(v1.GetX(), v2.GetX(), v3.GetX());
     float min_x = MIN_NUM(v1.GetX(), v2.GetX(), v3.GetX());
@@ -166,6 +165,7 @@ namespace XX_XZH
     float min_y = MIN_NUM(v1.GetY(), v2.GetY(), v3.GetY());
     // 光栅化，原点在左上角，所以左上角开始，右下角结束，
     Vector3 p;
+    Vector3 p_vt;
     for (int i = (int)min_y; i < (int)max_y; i++)
     {
       for (int j = (int)min_x; j < (int)max_x; j++)
@@ -184,7 +184,8 @@ namespace XX_XZH
         //贴图
         if(zbuffer[int(j+i*800)]<=p.GetZ()){
           zbuffer[int(j+i*800)]=p.GetZ();
-          SetPixel(hdc,j,i,RGB(255*intensity,255*intensity,255*intensity));
+          TGAColor rgb =  obj.texture_tga.get(p_vt.GetX(),p_vt.GetY());
+          SetPixel(hdc,j,i,RGB(rgb.bgra[2]*intensity,rgb.bgra[1]*intensity,rgb.bgra[0]*intensity));
         }
       }
     }
