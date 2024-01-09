@@ -32,6 +32,9 @@ HINSTANCE hInst;
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 
 //全局变量声明区域
+int x = 1;
+int y = 1;
+int z = 1;
 float fps;
 Matrix Model;
 Matrix View;
@@ -65,7 +68,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance,_In_opt_ HINSTANCE hPrevInstance,_In
   //第一步，加载所有模型
   for(int i=0;i<arr_obj.size();i++){
     //第二步，加载模型上，所有的点
-    for(int j=0;j<arr_obj[i].v.size();j++){
+    for(int j=0;j<arr_obj_origin[i].v.size();j++){
+      arr_obj_origin[i].v[j] = (Model * arr_obj[i].v[j]).Identity();
       arr_obj[i].v[j] = (ViewPort * Project * View * Model * arr_obj[i].v[j]).Identity();
     }
   }
@@ -144,6 +148,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
   case WM_DESTROY:
     PostQuitMessage(0);
     break;
+  case WM_KEYDOWN:
+    {
+      if(wParam == VK_RIGHT){
+      }else if(wParam == VK_LEFT){
+      }
+      break;
+    }
   default:
     return DefWindowProc(hWnd, message, wParam, lParam);
     break;
